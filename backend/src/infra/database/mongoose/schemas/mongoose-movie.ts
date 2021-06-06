@@ -4,6 +4,7 @@ import { Model, Mongoose } from 'mongoose'
 import { MongooseSentenceSchema } from './mongoose-sentence'
 
 export type MongooseMovieSchema = {
+  _id: string
   name: string
   sentences: MongooseSentenceSchema[]
 }

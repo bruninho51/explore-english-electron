@@ -22,6 +22,10 @@ export const unauthorized = (): HttpResponse => ({
   body: new UnauthorizedError()
 })
 
+export const notFound = (): HttpResponse => ({
+  statusCode: 404
+})
+
 export const ok = (body: any): HttpResponse => ({
   statusCode: 200,
   body: body

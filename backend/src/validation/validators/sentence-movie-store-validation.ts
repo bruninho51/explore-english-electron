@@ -1,7 +1,9 @@
-import { Validation, ValidationError } from '@/validation/protocols'
+import { Validation, ValidationError, ValidationErrorsParser } from '@/validation/protocols'
 import * as yup from 'yup'
 
 export class SentenceMovieStoreValidation implements Validation {
+  constructor (private readonly validationParser: ValidationErrorsParser<yup.ValidationError>) {}
+
   async validate (input: any): Promise<ValidationError[]> {
     const schema = yup.object().shape({
       movieId: yup.string().required(),
@@ -13,13 +15,7 @@ export class SentenceMovieStoreValidation implements Validation {
       await schema.validate(input, { abortEarly: false })
       return null
     } catch (error) {
-      const yupError = error as yup.ValidationError
-      return yupError.inner.reduce((errs: ValidationError[], err: yup.ValidationError): ValidationError[] => {
-        return [...errs, {
-          path: err.path,
-          errors: err.errors
-        }]
-      }, [])
+      return await this.validationParser.parse(error as yup.ValidationError)
     }
   }
 }

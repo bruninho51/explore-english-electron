@@ -2,6 +2,7 @@ import { MongooseModel } from '@/infra/database/mongoose/protocols'
 import { Model, Mongoose } from 'mongoose'
 
 export type MongooseSentenceSchema = {
+  _id: string
   wordIndex: number
   sentence: string
 }

@@ -1,16 +1,12 @@
 import { Validation, ValidationError, ValidationErrorsParser } from '@/validation/protocols'
 import * as yup from 'yup'
 
-export class MovieStoreValidation implements Validation {
+export class MovieShowValidation implements Validation {
   constructor (private readonly validationParser: ValidationErrorsParser<yup.ValidationError>) {}
 
   async validate (input: any): Promise<ValidationError[]> {
     const schema = yup.object().shape({
-      name: yup.string().required(),
-      sentences: yup.array().of(yup.object().shape({
-        sentence: yup.string().required(),
-        wordIndex: yup.number().required().positive().integer()
-      }))
+      movieId: yup.string().required()
     })
 
     try {
