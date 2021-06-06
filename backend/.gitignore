@@ -7,3 +7,4 @@ dist
 data
 !src/data
 .env
+dist

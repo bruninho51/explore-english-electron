@@ -15,6 +15,7 @@ export class MongooseLog implements MongooseModel<MongooseLogSchema> {
       stack: { type: String }
     }, { timestamps: true })
 
-    return this.mongoose.model<MongooseLogSchema>(this.collectionName, schema)
+    return this.mongoose.models[this.collectionName] ||
+      this.mongoose.model<MongooseLogSchema>(this.collectionName, schema)
   }
 }

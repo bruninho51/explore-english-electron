@@ -17,6 +17,7 @@ export class MongooseSentence implements MongooseModel<MongooseSentenceSchema> {
       sentence: { type: String }
     })
 
-    return this.mongoose.model<MongooseSentenceSchema>(this.collectionName, schema)
+    return this.mongoose.models[this.collectionName] ||
+      this.mongoose.model<MongooseSentenceSchema>(this.collectionName, schema)
   }
 }
