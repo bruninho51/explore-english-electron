@@ -79,7 +79,8 @@ export const PhrasalExtractor = (props) => {
 
       for (let i = 0; i < phrases.length; i++) {
         const newPhrases = [ ...phrases ]
-        newPhrases[i].status = 'saving'
+        if (newPhrases[i].status != 'saved')
+          newPhrases[i].status = 'saving'
         setPhrases(newPhrases)
         callback(phrases[i], status(i))
       }

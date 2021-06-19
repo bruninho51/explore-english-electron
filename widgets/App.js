@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { PhrasalExtractor } from  './PhrasalExtractor'
+import { saveSentence } from '../services/save-sentence'
 
 function App() {
 
@@ -20,14 +21,22 @@ function App() {
         }],
         balance: 500,
         subtitle: subtitle
-      }} save={(_phrase, status) => {
-      setTimeout(() => {
-        if (Math.floor((Math.random() * 10) + 1) < 4 ? 1 : 0) {
-          status.saved()
-        } else {
-          status.failed()
+      }} save={(phrase, status) => {
+
+        console.log(phrase.status)
+
+        if (phrase.status !== 'saved') {
+          saveSentence(phrase)
+          .then(() => {
+            status.saved()
+          })
+          .catch((error) => {
+            console.log(error)
+            status.failed()
+          })
         }
-      }, 3000)}} />
+          
+      }} />
     </div>
   );
 }
