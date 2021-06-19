@@ -1,0 +1,299 @@
+swagger: "2.0"
+info:
+  description: "Explorenglish is a platform created to increase your understanding of the English language through videos and spaced repetition."
+  version: "1.0.0"
+  title: "Explore English"
+host: "localhost:3000"
+basePath: "/api"
+tags:
+- name: "Movies"
+  description: "Everything about Movies"
+- name: "Sentences"
+  description: "Generic Sentences"
+schemes:
+- "http"
+paths:
+  /movie:
+    post:
+      tags:
+      - "Movies"
+      summary: "Add a new movie"
+      description: ""
+      operationId: "addMovie"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "Movie object that needs to be added to the database"
+        required: true
+        schema:
+          $ref: "#/definitions/MovieDTO"
+      responses:
+        "400":
+          description: "Bad Request"
+          schema:
+            $ref: "#/definitions/ApiResponseInvalidDataError"
+        "201":
+          description: "Created"
+        "500":
+          description: "Internal Server Error"
+          schema:
+            $ref: "#/definitions/ApiResponseServerError"
+    get:
+      tags:
+      - "Movies"
+      summary: "Show all movies"
+      description: ""
+      operationId: "showMovies"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      responses:
+        "400":
+          description: "Bad Request"
+          schema:
+            $ref: "#/definitions/ApiResponseInvalidDataError"
+        "200":
+          description: "Got"
+          schema:
+            $ref: "#/definitions/MovieCollection"
+        "404":
+          description: "Not Found"
+        "500":
+          description: "Internal Server Error"
+          schema:
+            $ref: "#/definitions/ApiResponseServerError"
+  "/movie/{id}":
+    get:
+      tags:
+      - "Movies"
+      summary: "Show a movie"
+      description: ""
+      operationId: "showMovie"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+        - in: path
+          name: id
+          type: string
+          required: true
+          description: ID of Sentence
+      responses:
+        "400":
+          description: "Bad Request"
+          schema:
+            $ref: "#/definitions/ApiResponseInvalidDataError"
+        "200":
+          description: "Got"
+          schema:
+            $ref: "#/definitions/Movie"
+        "404":
+          description: "Not Found"
+        "500":
+          description: "Internal Server Error"
+          schema:
+            $ref: "#/definitions/ApiResponseServerError"
+  "/movie/{id}/sentence":
+      post:
+        tags:
+        - "Movies"
+        summary: "Add a new movie"
+        description: ""
+        operationId: "addMovieSentence"
+        consumes:
+        - "application/json"
+        produces:
+        - "application/json"
+        parameters:
+          - in: path
+            name: id
+            type: string
+            required: true
+            description: ID of Movie
+          - in: "body"
+            name: "body"
+            description: "Sentence object that needs to be added to the Movie"
+            required: true
+            schema:
+              $ref: "#/definitions/SentenceDTO"
+        responses:
+          "400":
+            description: "Bad Request"
+            schema:
+              $ref: "#/definitions/ApiResponseInvalidDataError"
+          "201":
+            description: "Created"
+          "500":
+            description: "Internal Server Error"
+            schema:
+              $ref: "#/definitions/ApiResponseServerError"
+      get:
+        tags:
+        - "Movies"
+        summary: "Show sentences from a movie"
+        description: ""
+        operationId: "showMovieSentence"
+        consumes:
+        - "application/json"
+        produces:
+        - "application/json"
+        parameters:
+          - in: path
+            name: id
+            type: string
+            required: true
+            description: ID of Movie
+        responses:
+          "400":
+            description: "Bad Request"
+            schema:
+              $ref: "#/definitions/ApiResponseInvalidDataError"
+          "200":
+            description: "Got"
+            schema:
+              $ref: "#/definitions/SentenceCollection"
+          "404":
+            description: "Not Found"
+          "500":
+            description: "Internal Server Error"
+            schema:
+              $ref: "#/definitions/ApiResponseServerError"
+  
+  /sentence:
+    post:
+      tags:
+      - "Sentences"
+      summary: "Add a new general sentence"
+      description: ""
+      operationId: "addSentence"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+        - in: "body"
+          name: "body"
+          description: "Sentence object that needs to be added to the database"
+          required: true
+          schema:
+            $ref: "#/definitions/SentenceDTO"
+      responses:
+        "400":
+          description: "Bad Request"
+          schema:
+            $ref: "#/definitions/ApiResponseInvalidDataError"
+        "201":
+          description: "Created"
+        "500":
+          description: "Internal Server Error"
+          schema:
+            $ref: "#/definitions/ApiResponseServerError"
+  "/sentence/{id}":
+    get:
+      tags:
+      - "Sentences"
+      summary: "Show a general sentence"
+      description: ""
+      operationId: "showSentence"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+        - in: path
+          name: id
+          type: string
+          required: true
+          description: ID of Sentence
+      responses:
+        "400":
+          description: "Bad Request"
+          schema:
+            $ref: "#/definitions/ApiResponseInvalidDataError"
+        "200":
+          description: "Created"
+          schema:
+            $ref: "#/definitions/Sentence"
+        "404":
+          description: "Not Found"
+        "500":
+          description: "Internal Server Error"
+          schema:
+            $ref: "#/definitions/ApiResponseServerError"
+definitions:
+  SentenceDTO:
+    type: "object"
+    properties:
+      wordIndex:
+        type: "integer"
+        format: "int64"
+      sentence:
+        type: "string"
+  MovieDTO:
+    type: "object"
+    required:
+    - "name"
+    properties:
+      sentence:
+        $ref: "#/definitions/SentenceDTO"
+      name:
+        type: "string"
+  Movie:
+    type: "object"
+    required:
+      - "name"
+    properties:
+      id:
+        type: "string"
+      name:
+        type: "string"
+  MovieSentence:
+    allOf:
+      - type: object
+        properties:
+          id:
+            type: string
+          sentence:
+            $ref: "#/definitions/Sentence"
+      - $ref: "#/definitions/MovieDTO"
+  
+  Sentence:
+    allOf:
+      - type: object
+        properties:
+          id:
+            type: string
+      - $ref: '#/definitions/SentenceDTO'
+  SentenceCollection:
+    type: "array"
+    items:
+      $ref: "#/definitions/Sentence"
+  MovieCollection:
+    type: "array"
+    items:
+      $ref: "#/definitions/Movie"
+  ApiResponseInvalidDataError:
+    type: "object"
+    properties:
+      errors:
+        type: "array"
+        items:
+          type: "object"
+          properties:
+            path:
+              type: "string"
+            errors:
+              type: "array"
+              items:
+                type: "string"
+  ApiResponseServerError:
+    type: "object"
+    properties:
+      error:
+        type: "string"

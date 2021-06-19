@@ -1,22 +1,22 @@
 import { Movie } from '@/domain/models/movie'
-import { MovieShow } from '@/domain/protocols/movie-show'
+import { MoviesShow } from '@/domain/protocols/movies-show'
 import { MongooseMovieSchema } from '@/infra/database/mongoose/schemas/mongoose-movie'
 import { Model } from 'mongoose'
 
-export class MongooseMovieShow implements MovieShow {
+export class MongooseMoviesShow implements MoviesShow {
   constructor (
     private readonly movieRepository: Model<MongooseMovieSchema>
   ) {}
 
-  async show (movieId: string): Promise<Movie> {
+  async show (): Promise<Movie[]> {
     return await new Promise((resolve, reject) => {
       (async () => {
-        const movie = await this.movieRepository.findById(movieId)
-        if (movie) {
-          const result: MovieShow.Result = {
+        const movies = await this.movieRepository.find()
+        if (movies) {
+          const result: Movie[] = movies.map(movie => ({
             id: movie._id,
             name: movie.name
-          }
+          }))
           resolve(result)
         }
 
