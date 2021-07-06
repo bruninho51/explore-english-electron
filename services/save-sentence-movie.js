@@ -7,7 +7,7 @@ export const saveSentenceMovie = (movieId, sentence) => {
       sentence: sentence.sentence
     })
       .then(response => {
-        resolve(response.body.id)
+        resolve(response.data.id)
       })
       .catch(function (error) {
         reject(error)

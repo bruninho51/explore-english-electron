@@ -10,7 +10,7 @@ import { extractWordsFromSentence } from "../helpers/helpers";
 export const Container = styled.div`
   box-sizing: border-box;
   width: 100%;
-  height: 95vmin;
+  height: 100%;
   background: #F8F8F8;
   border-left: 3px solid #DCDCDC;
   border-right: 3px solid #DCDCDC;
@@ -35,7 +35,7 @@ const Section = styled.section`
 `
 
 const VideoContainer = styled(Section)`
-  width: 59%;
+  width: 100%;
   height: 80vmin;
   flex-direction: column;
   justify-content: space-around;
@@ -136,7 +136,9 @@ export const PhrasalExtractor = (props) => {
                             props.videoPlayer.onSave(word, subtitle)
                     }}
                 />
-                <SizedBox height="120px" />
+                <SizedBox height="120px" >
+                  <p style={{fontSize: '22px', fontFamily: 'Roboto sans-serif' }}>{`Movie: ${props.title}`}</p>
+                </SizedBox>
                 <OptBar>
                   <Button size="large" style={{width: '200px'}} onClick={() => saveSentences(props.save)}>
                     Finish Studies

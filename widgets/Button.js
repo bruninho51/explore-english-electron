@@ -23,7 +23,6 @@ const BaseButton = styled.button`
   display: ${props => props.block ? 'block' : 'inline-block'};
   padding-top: 10px;
   padding-bottom: 10px;
-  margin-left: 15px;
   max-width: 100%;
   width: 100%;
   box-shadow: rgb(196, 196, 196) 5px 5px 10px;
