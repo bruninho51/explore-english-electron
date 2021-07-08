@@ -15,12 +15,17 @@ export const Bar = styled.div`
   top: 0px;
 `
 
-export const MenuApp = ({ onHome }) => {
+export const MenuApp = ({ onHome, onCreateMovie }) => {
     const [createMovie, setCreateMovie] = useState(false)
+
+    const onSave = (movie) => {
+        onCreateMovie(movie)
+        setCreateMovie(false)
+    }
 
     return (
         <React.Fragment>
-            {createMovie ? <CreateMovieDialog onCancel={() => setCreateMovie(false)} onSave={() => alert('movie criado')} /> : <div />}
+            {createMovie ? <CreateMovieDialog onCancel={() => setCreateMovie(false)} onSave={onSave} /> : <div />}
             <Bar>
                 <Button style={{marginTop: '5px'}} onClick={onHome}>
                     <img width="15px" src="assets/home.png" alt="home"/>

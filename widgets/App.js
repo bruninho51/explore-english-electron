@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react'
 import { PhrasalExtractor } from  './PhrasalExtractor'
-import { saveSentence } from '../services/save-sentence'
 import { MovieList } from './MovieList'
 import { MenuApp } from './MenuApp'
 import { MainContainer } from './MainContainer'
@@ -9,9 +8,25 @@ import { saveSentenceMovie } from '../services/save-sentence-movie'
 function Player({ movieId, movieName }) {
   const [video, setVideo] = useState('file:///home/bruno/Downloads/Pitch Atomon.mp4')
   const [subtitle, setSubtitle] = useState([])
+  const [phrases, setPhrases] = useState([])
 
   window.on.openSrt(setSubtitle)
   window.on.openVideo(setVideo)
+
+  useEffect(() => {
+    getPhrasesFromMovie()
+  }, [])
+
+  const getPhrasesFromMovie = () => {
+    fetch(`http://localhost:3000/api/movie/${movieId}/sentence`)
+      .then(response => response.json())
+      .then((sentences) => { 
+        setPhrases(sentences.map(sentence => ({
+          ...sentence,
+          status: 'saved'
+        })))
+      })
+  }
 
   return (
       <PhrasalExtractor videoPlayer={{
@@ -24,6 +39,7 @@ function Player({ movieId, movieName }) {
         balance: 500,
         subtitle: subtitle,
       }} 
+     phrases={phrases}
       title={movieName}
       save={(phrase, status) => {
 
@@ -55,9 +71,21 @@ function App() {
       .then((data) => setMovies(data))
   }
 
+  const onCreateMovie = (movie) => {
+    console.log(movie)
+    fetch('http://localhost:3000/api/movie', {
+      method: 'post',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(movie)
+    })
+  }
+
   useEffect(() => {
     getMovies()
-  });
+  }, []);
 
   const removeMovie = (id) => {
     alert(id)
@@ -65,7 +93,7 @@ function App() {
 
   return (
     <MainContainer>
-      <MenuApp onHome={goHome} />
+      <MenuApp onHome={goHome} onCreateMovie={onCreateMovie} />
         {Object.values(selectedMovie).length
           ? <Player movieId={selectedMovie.id} movieName={selectedMovie.name} />
           : <MovieList movies={movies.map(movie => ({

@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useState, useEffect } from "react"
 import styled from "styled-components"
 import VideoPlayer from "./VideoPlayer"
 import { v4 as uuidv4 } from 'uuid';
@@ -60,8 +60,12 @@ export const OptBar = ({ children }) => {
 
 export const PhrasalExtractor = (props) => {
 
-  const [phrases, setPhrases] = useState([])
+  const [phrases, setPhrases] = useState(Array.isArray(props.phrases) ? props.phrases : [])
   const [dialog, setDialog] = useState(null)
+
+  useEffect(() => {
+    setPhrases(props.phrases)
+  }, [props])
 
     const saveSentences = (callback) => {
       const status = (index) => ({

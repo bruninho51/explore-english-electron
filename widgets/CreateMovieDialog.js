@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import '../assets/css/Dialog.css'
 import '../assets/css/Swing.css'
 import { Button } from './Button'
@@ -33,11 +33,11 @@ const Label = styled.label`
     font-size: 16px;
 `
 
-const TextInput = ({ type, name, label }) => {
+const TextInput = ({ type, name, label, value, onChange }) => {
     return (
         <TextInputContainer>
             <Label>{`${label}:`}</Label>
-            <TextInputStyle type={type} name={name} />
+            <TextInputStyle type={type} name={name} value={value} onChange={onChange} />
         </TextInputContainer>
     )
 }
@@ -55,6 +55,8 @@ export const CreateMovieDialog = ({ onCancel, onSave }) => {
     
     const dialogRef = React.createRef();
 
+    const [movie, setMovie] = useState({})
+
     const swingAnimation = () => {
         const dialog = dialogRef.current;
         dialog.classList.remove('swing-animation');
@@ -62,6 +64,14 @@ export const CreateMovieDialog = ({ onCancel, onSave }) => {
             dialog.classList.remove('swing-animation');
             dialog.classList.add('swing-animation');
         }, 100);
+    }
+
+    const handleChange = (event) => {
+        setMovie({
+            ...movie,
+            [event.target.name]: event.target.value
+
+        })
     }
 
     return (
@@ -74,12 +84,12 @@ export const CreateMovieDialog = ({ onCancel, onSave }) => {
                 </Header>
                 <div class="body" id="dialog-body">
                     <Form>
-                        <TextInput type="text" name="name" label="Name" />
+                        <TextInput type="text" name="name" label="Name" value={movie['name']} onChange={handleChange} />
                     </Form>
                 </div>
                 <footer>
                     <Button theme="danger" style={{ marginRight: '5px' }} onClick={onCancel}>Cancel</Button>
-                    <Button theme="success" onClick={onSave}>Save</Button>
+                    <Button theme="success" onClick={() => onSave(movie)}>Save</Button>
                 </footer>
             </div>
         </DialogContainer>
