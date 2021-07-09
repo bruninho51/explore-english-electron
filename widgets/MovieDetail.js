@@ -1,6 +1,5 @@
 import React from 'react'
 import styled from "styled-components"
-import { Button } from './Button'
 
 export const MoviesList = styled.div`
   box-sizing: border-box;
@@ -27,10 +26,9 @@ export const FlexContainer = styled.div`
 
 export const MovieTumbContainer = styled.div`
   box-sizing: border-box;
-  width: 300px;
-  height: 300px;
+  width: 400px;
+  height: 100px;
   background: #F8F8F8;
-  padding: 20px;
   margin-left: 1vmax;
   border-left: 3px solid #DCDCDC;
   border-right: 3px solid #DCDCDC;
@@ -38,25 +36,27 @@ export const MovieTumbContainer = styled.div`
   border-radius: 5px;
   top: 0px;
   margin-bottom: 15px;
+  margin-top: 15px;
   align-items: center;
   font-family: Roboto, sans-serif;
   position: relative;
+  display: flex;
 `
 
-const Footer = styled.div`
-    display: flex;
-    justify-content: flex-end;
-    flex-align: center;
-`
-
-const Header = styled.div`
-    width: 100%;
-    height: 70%; 
+const ImageContainer = styled.div`
+    height: 100%; 
     display: flex; 
-    justify-content: center;
+    justify-content: start;
 `
 const Body = styled.div`
     padding: 10px 0px 0px 0px;
+    display: flex;
+    align-items: start;
+    height: 100%;
+    padding: 15px 0px 0px 0px;
+    width: 800px;
+    font-size: 12px;
+    font-weight: bold;
 `
 
 const InlineBlockContainer = styled.div`
@@ -65,50 +65,24 @@ const InlineBlockContainer = styled.div`
 
 const MovieImage = ({ alt, src }) => {
     return (
-        <img style={{ height: '100%' }} alt={alt} src={src ?? 'assets/movie.png'} />
+        <img style={{ height: '100%', marginRight: '10px' }} alt={alt} src={src ?? 'https://assets.papelpop.com/wp-content/uploads/2019/08/mr-roboto-4a-temporada-trailer.jpg'} />
     )
 }
 
-const TrashStyle = styled.div`
-    position: absolute;
-    top: 0px;
-    right: 0px;
-    padding: 5px 5px 0px 0px;
-    cursor: pointer;
-`
-
-const Trash = ({ onRemove }) => {
-    return (
-        <TrashStyle>
-            <img width="30px" src="assets/trash.svg" alt="trash" onClick={onRemove} />
-        </TrashStyle>
-    )
-}
-
-export const MovieTumb = ({ title, imageSrc, imageAlt, onStudy, onRemove }) => {
+export const MovieTumb = ({ title, imageSrc, imageAlt }) => {
     return (
         <MovieTumbContainer>
-            {onRemove
-              ? <Trash onRemove={onRemove} />
-              : <div />}
-            
-            <Header>
+            <ImageContainer>
                 <MovieImage alt={imageAlt} src={imageSrc} />
-            </Header>
+            </ImageContainer>
             <Body>
                 {title}
             </Body>
-            <Footer>
-                {onStudy 
-                  ? <Button onClick={onStudy}>Estudar</Button>
-                  : <div />}
-                
-            </Footer>
         </MovieTumbContainer>
     )
 }
 
-export const Movie = ({ title, imageSrc, imageAlt, onStudy, onRemove }) => {
+export const MovieDetail = ({ title, imageSrc, imageAlt }) => {
     return (
         <InlineBlockContainer>
             <FlexContainer>
@@ -116,8 +90,6 @@ export const Movie = ({ title, imageSrc, imageAlt, onStudy, onRemove }) => {
                     title={title}
                     imageSrc={imageSrc}
                     imageAlt={imageAlt}
-                    onStudy={onStudy}
-                    onRemove={onRemove}
                 />
             </FlexContainer>
         </InlineBlockContainer>

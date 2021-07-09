@@ -15,7 +15,7 @@ export const Center = styled.p`
   padding: 5px;
   font: 24px Roboto, sans-serif;
   text-align: center;
-  margin: 0;
+  margin: 0px;
   display: flex;
   justify-content: center;
   flex-direction: column;

@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import styled from 'styled-components'
 import { Button } from './Button'
 import { CreateMovieDialog } from './CreateMovieDialog'
+import { FaHome } from 'react-icons/fa';
 
 export const Bar = styled.div`
   box-sizing: border-box;
@@ -12,7 +13,13 @@ export const Bar = styled.div`
   border-right: 3px solid #DCDCDC;
   border-bottom: 3px solid #DCDCDC;
   border-radius: 5px;
+  display: flex;
+  justify-content: center;
   top: 0px;
+  ${Button} {
+    width: 3vmax;
+    height: 3vmax;
+  }
 `
 
 export const MenuApp = ({ onHome, onCreateMovie }) => {
@@ -25,13 +32,17 @@ export const MenuApp = ({ onHome, onCreateMovie }) => {
 
     return (
         <React.Fragment>
-            {createMovie ? <CreateMovieDialog onCancel={() => setCreateMovie(false)} onSave={onSave} /> : <div />}
-            <Bar>
-                <Button style={{marginTop: '5px'}} onClick={onHome}>
-                    <img width="15px" src="assets/home.png" alt="home"/>
+          {createMovie ? <CreateMovieDialog onCancel={() => setCreateMovie(false)} onSave={onSave} /> : <div />}
+          <Bar>
+            {onHome 
+              ? <Button style={{marginTop: '5px'}} onClick={onHome}>
+                  <FaHome />
                 </Button>
-                <Button style={{marginTop: '5px'}} onClick={() => setCreateMovie(true)}>+</Button>
-            </Bar>
+              : <div />}
+            {onCreateMovie 
+              ? <Button style={{marginTop: '5px'}} onClick={() => setCreateMovie(true)}>+</Button>
+              : <div />}
+          </Bar>
         </React.Fragment>
     )
 }

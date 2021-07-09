@@ -1,3 +1,10 @@
+body {
+  overflow: hidden;
+}
+
+.video-js {
+  height: 50vmin;
+}
 
 .App {
   text-align: center;

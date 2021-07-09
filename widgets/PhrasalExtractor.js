@@ -6,6 +6,7 @@ import { PhrasalList } from "./PhrasalList";
 import { Button } from "./Button";
 import { Dialog } from "./Dialog";
 import { extractWordsFromSentence } from "../helpers/helpers";
+import { MovieDetail } from './MovieDetail'
 
 export const Container = styled.div`
   box-sizing: border-box;
@@ -28,7 +29,6 @@ const Section = styled.section`
   border-left: 3px solid #DCDCDC;
   border-right: 3px solid #DCDCDC;
   padding: 5px 5px 5px 5px;
-
   border-bottom: 3px solid #DCDCDC;
   border-radius: 5px;
   display: flex;
@@ -141,11 +141,14 @@ export const PhrasalExtractor = (props) => {
                     }}
                 />
                 <SizedBox height="120px" >
-                  <p style={{fontSize: '22px', fontFamily: 'Roboto sans-serif' }}>{`Movie: ${props.title}`}</p>
+                  <MovieDetail
+                    title={props.title}
+                    imageAlt={props.title}
+                  />
                 </SizedBox>
                 <OptBar>
                   <Button size="large" style={{width: '200px'}} onClick={() => saveSentences(props.save)}>
-                    Finish Studies
+                    Save Progress
                   </Button>
                 </OptBar>
             </VideoContainer>

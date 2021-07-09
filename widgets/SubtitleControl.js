@@ -86,6 +86,9 @@ const ActionFooter = styled.footer`
   position: absolute;
   bottom: 10px;
   right: 10px;
+  ${Button} {
+    margin-left: 5px;
+  }
 `
 
 const RelativeBox = styled.div`

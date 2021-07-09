@@ -15,6 +15,12 @@ const makeTemplateMenu = (openMP4Dialog, openSrtDialog) => {
       ]
     },
     {
+      label: "Movie",
+      submenu: [
+        { label: "Create a Movie                        ", click: () => { openSrtDialog() } }
+      ]
+    },
+    {
       label: "Help",
       submenu: [
         { 
