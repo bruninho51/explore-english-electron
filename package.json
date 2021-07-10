@@ -1,12 +1,14 @@
 {
-  "name": "parcel",
+  "name": "explore-english",
   "version": "1.0.0",
-  "description": "",
-  "main": "./dist/index.js",
+  "description": "teste",
+  "main": "electron.js",
   "scripts": {
     "start": "electron ./dist/electron.js",
     "prebuild": "rimraf dist && copyfiles -u 1 helpers/**/* dist/helpers && copyfiles -u 1 windows/**/* dist/windows && copyfiles -u 1 layouts/**/* dist/layouts && copyfiles assets/* dist/ && copyfiles assets/css/* dist/assets/css && copyfiles electron.js dist/",
-    "build": "parcel build index.html --public-url . --no-minify --no-cache"
+    "build": "parcel build index.html --public-url . --no-minify --no-cache",
+    "build:package": "npm run build -- && copyfiles package.json dist/ && cd dist && electron-packager . explore-english --overwrite --asar=true --platform=linux --arch=x64 --prune=true --out=../release-builds",
+    "build:deb": "electron-installer-debian --src release-builds/explore-english-linux-x64/ --dest release-builds/explore-english-linux-x64/deb/ --arch amd64"
   },
   "keywords": [],
   "author": "",
@@ -17,13 +19,17 @@
     "@babel/preset-react": "^7.13.13",
     "babel-core": "^7.0.0-0",
     "copyfiles": "^2.4.1",
+    "electron": "^12.0.7",
+    "electron-builder": "^22.11.7",
+    "electron-installer-debian": "^3.1.0",
+    "electron-installer-flatpak": "^0.8.0",
+    "electron-installer-snap": "^5.1.0",
     "parcel-bundler": "^1.12.5"
   },
   "dependencies": {
     "@react-icons/all-files": "^4.1.0",
     "@videojs/themes": "^1.0.0",
     "axios": "^0.21.1",
-    "electron": "^12.0.7",
     "react": "^17.0.2",
     "react-custom-scrollbars": "^4.2.1",
     "react-dom": "^17.0.2",
