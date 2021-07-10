@@ -3,6 +3,7 @@ import styled from "styled-components"
 import { Button } from './Button'
 import { CreateMovieDialog } from "./CreateMovieDialog"
 import { Movie } from './Movie'
+import Scrollbars from "react-custom-scrollbars"
 
 export const Container = styled.div`
   margin: 0 auto;
@@ -43,9 +44,7 @@ export const MoviesList = styled.div`
   border-bottom: 3px solid #DCDCDC;
   border-radius: 5px;
   top: 0px;
-  overflow-x: hidden;
-  overflow-y: scroll;
-`
+  overflow: hidden;`
 
 export const FlexContainer = styled.div`
   display: flex;
@@ -84,6 +83,12 @@ export const MovieTumb = ({ title }) => {
     )
 }
 
+const VerticalScroll = styled.div`
+  background: rgba(0, 0, 0, 0.5);
+  border-radius: 5px;
+  width: 6px;
+`
+
 export const MovieList = ({ movies, onHome }) => {
   const [createMovie, setCreateMovie] = useState(false)
 
@@ -91,6 +96,7 @@ export const MovieList = ({ movies, onHome }) => {
       <React.Fragment>
         {createMovie ? <CreateMovieDialog onCancel={() => setCreateMovie(false)} onSave={() => alert('movie criado')} /> : <div />}
           <MoviesList>
+            <Scrollbars renderThumbVertical={() => (<VerticalScroll />)}>
               {movies.map((movie) => (
                 <Movie
                   title={movie.title}
@@ -100,6 +106,7 @@ export const MovieList = ({ movies, onHome }) => {
                   onStudy={movie.onStudy}
                 />
               ))}
+            </Scrollbars>
           </MoviesList>
       </React.Fragment>
     )

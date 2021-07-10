@@ -18,6 +18,12 @@ function Player({ movieId, movieName, onHome }) {
     getPhrasesFromMovie()
   }, [])
 
+  const onExport = () => {
+    return fetch(`http://localhost:3000/api/movie/${movieId}/sentence`)
+      .then((response) => response.json())
+      .then((sentences) => window.on.exportMovieData(movieName, sentences))
+  }
+
   const getPhrasesFromMovie = () => {
     fetch(`http://localhost:3000/api/movie/${movieId}/sentence`)
       .then(response => response.json())
@@ -31,7 +37,7 @@ function Player({ movieId, movieName, onHome }) {
 
   return (
       <React.Fragment>
-        <MenuApp onHome={onHome} />
+        <MenuApp onHome={onHome} onExport={onExport} />
         <PhrasalExtractor videoPlayer={{
           autoplay: true,
           controls: true,

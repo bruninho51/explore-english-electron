@@ -59,16 +59,16 @@ export const PhrasalList = ({ phrases, onDelete }) => {
       
         <PhrasalListContainer>
           <Scrollbars renderThumbVertical={() => (<VerticalScroll />)}>
-          {phrases.map((phrase) => (
-              <Card 
-                  key={phrase.uuid} 
-                  uuid={phrase.uuid}
-                  wordIndex={phrase.wordIndex} 
-                  sentence={phrase.sentence} 
-                  onDelete={onDelete}
-                  status={phrase.status}
-              />
-          ))}
+            {phrases.map((phrase) => (
+                <Card 
+                    key={phrase.uuid} 
+                    uuid={phrase.uuid}
+                    wordIndex={phrase.wordIndex} 
+                    sentence={phrase.sentence} 
+                    onDelete={onDelete}
+                    status={phrase.status}
+                />
+            ))}
           </Scrollbars>
         </PhrasalListContainer>  : <NoContent />)
 }

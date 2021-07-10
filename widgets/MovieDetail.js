@@ -65,7 +65,7 @@ const InlineBlockContainer = styled.div`
 
 const MovieImage = ({ alt, src }) => {
     return (
-        <img style={{ height: '100%', marginRight: '10px' }} alt={alt} src={src ?? 'https://assets.papelpop.com/wp-content/uploads/2019/08/mr-roboto-4a-temporada-trailer.jpg'} />
+        <img style={{ height: '100%', marginRight: '10px' }} alt={alt} src={src ?? 'assets/movie.png'} />
     )
 }
 

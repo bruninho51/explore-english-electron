@@ -21,6 +21,10 @@ const TextInputStyle = styled.input`
     width: 400px;
     padding: 0px 20px 0px 20px;
     text-align: center;
+    &:focus {
+        outline: none;
+        border-radius: 10px;
+    }
 `
 
 const TextInputContainer = styled.div`
