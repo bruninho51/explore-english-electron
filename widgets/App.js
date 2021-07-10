@@ -115,7 +115,10 @@ function App() {
   }, []);
 
   const removeMovie = (id) => {
-    alert(id)
+    fetch(`http://localhost:3000/api/movie/${id}`, {
+      method: 'delete',
+    })
+      .then(() => getMovies())
   }
 
   return (
