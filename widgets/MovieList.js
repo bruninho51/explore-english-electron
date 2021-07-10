@@ -89,7 +89,7 @@ const VerticalScroll = styled.div`
   width: 6px;
 `
 
-export const MovieList = ({ movies, onHome }) => {
+export const MovieList = ({ movies }) => {
   const [createMovie, setCreateMovie] = useState(false)
 
     return (
