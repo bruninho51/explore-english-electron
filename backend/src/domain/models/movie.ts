@@ -1,6 +1,6 @@
 import { Sentence } from './sentence'
 
-export type Movie = {
+export interface Movie {
   id?: string
   name: string
   sentences?: Sentence[]

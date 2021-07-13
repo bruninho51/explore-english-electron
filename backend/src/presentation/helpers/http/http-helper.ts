@@ -7,6 +7,11 @@ export const badRequest = (errors: ValidationError[]): HttpResponse => ({
   body: errors
 })
 
+export const badGateway = (error: Error): HttpResponse => ({
+  statusCode: 502,
+  body: error
+})
+
 export const noContent = (): HttpResponse => ({
   statusCode: 204,
   body: null
