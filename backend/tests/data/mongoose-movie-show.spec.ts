@@ -17,7 +17,7 @@ const makeSut = (): SutTypes => {
     findByIdResultCallback: () => mockMovie()
   })
   const sentenceWordGetterSpy = new SentenceWordGetterSpy()
-  const sut = new MongooseMovieShow(sentenceWordGetterSpy, modelSpy as unknown as Model<MongooseMovieSchema>)
+  const sut = new MongooseMovieShow(modelSpy as unknown as Model<MongooseMovieSchema>)
   return {
     sut,
     modelSpy,
