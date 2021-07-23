@@ -5,6 +5,7 @@ import { MenuApp } from './MenuApp'
 import { MainContainer } from './MainContainer'
 import { saveSentenceMovie } from '../services/save-sentence-movie'
 import '../assets/css/App.css'
+import { useAuth } from '../contexts/auth'
 
 function Player({ movieId, movieName, onHome }) {
   const [video, setVideo] = useState('file:///home/bruno/Downloads/Pitch Atomon.mp4')
@@ -69,9 +70,10 @@ function Player({ movieId, movieName, onHome }) {
 }
 
 function Home({ movies, removeMovie, selectMovie, onCreateMovie }) {
+  const context = useAuth()
   return (
     <React.Fragment>
-      <MenuApp onCreateMovie={onCreateMovie} />
+      <MenuApp onCreateMovie={onCreateMovie} onLogout={context.Logout} />
       <MovieList movies={movies.map(movie => ({
         title: movie.name,
         imageAlt: movie.name,

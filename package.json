@@ -5,7 +5,7 @@
   "main": "electron.js",
   "scripts": {
     "start": "electron ./dist/electron.js",
-    "prebuild": "rimraf dist && copyfiles -u 1 helpers/**/* dist/helpers && copyfiles -u 1 windows/**/* dist/windows && copyfiles -u 1 layouts/**/* dist/layouts && copyfiles assets/* dist/ && copyfiles assets/css/* dist/assets/css && copyfiles electron.js dist/",
+    "prebuild": "rimraf dist && copyfiles -u 1 helpers/**/* dist/helpers && copyfiles -u 1 routes/**/* dist/routes && copyfiles -u 1 config/**/* dist/config && copyfiles -u 1 windows/**/* dist/windows && copyfiles -u 1 layouts/**/* dist/layouts && copyfiles assets/* dist/ && copyfiles assets/css/* dist/assets/css && copyfiles electron.js dist/",
     "build": "parcel build index.html --public-url . --no-minify --no-cache",
     "build:package": "npm run build -- && copyfiles package.json dist/ && cd dist && electron-packager . explore-english --overwrite --asar=true --platform=linux --arch=x64 --prune=true --out=../release-builds",
     "build:deb": "electron-installer-debian --src release-builds/explore-english-linux-x64/ --dest release-builds/explore-english-linux-x64/deb/ --arch amd64"

@@ -3,6 +3,7 @@ import styled from 'styled-components'
 import { Button } from './Button'
 import { CreateMovieDialog } from './CreateMovieDialog'
 import { FaHome, FaFileExport, FaPlusSquare } from 'react-icons/fa';
+import { RiLogoutBoxFill } from 'react-icons/ri'
 import { Dialog } from "./Dialog";
 
 export const Bar = styled.div`
@@ -25,7 +26,7 @@ export const Bar = styled.div`
   }
 `
 
-export const MenuApp = ({ onHome, onCreateMovie, onExport }) => {
+export const MenuApp = ({ onHome, onCreateMovie, onExport, onLogout }) => {
     const [createMovie, setCreateMovie] = useState(false)
     const [dialog, setDialog] = useState(false)
 
@@ -46,6 +47,11 @@ export const MenuApp = ({ onHome, onCreateMovie, onExport }) => {
             </Dialog> : <div />}
           {createMovie ? <CreateMovieDialog onCancel={() => setCreateMovie(false)} onSave={onSave} /> : <div />}
           <Bar>
+            {onLogout 
+                ? <Button style={{marginTop: '5px'}} onClick={onLogout}>
+                    <RiLogoutBoxFill />
+                  </Button>
+                : <div />}
             {onHome 
               ? <Button style={{marginTop: '5px'}} onClick={onHome}>
                   <FaHome />
