@@ -1,5 +1,10 @@
-import { Movie } from '@/domain/models/movie'
-
 export interface MoviesShow {
-  show: () => Promise<Movie[]>
+  show: () => Promise<MoviesShow.Result[]>
+}
+
+export namespace MoviesShow {
+  export type Result = {
+    id: string
+    name: string
+  }
 }

@@ -12,7 +12,11 @@ export class MongooseMovieStore implements MovieStore {
         console.log(movie)
         const model = await this.movieRepository.create({
           name: movie.name,
-          sentences: movie.sentences
+          sentences: movie.sentences,
+          user: {
+            _id: movie.user.id,
+            email: movie.user.email
+          }
         })
 
         await model.save()

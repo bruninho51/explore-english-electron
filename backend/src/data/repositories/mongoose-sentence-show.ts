@@ -19,7 +19,15 @@ export class MongooseSentenceShow implements SentenceShow {
             id: sentence._id,
             wordIndex: sentence.wordIndex,
             sentence: sentence.sentence,
-            word: this.sentenceWordGetter.getWord(sentence)
+            word: this.sentenceWordGetter.getWord({
+              id: sentence._id,
+              sentence: sentence.sentence,
+              wordIndex: sentence.wordIndex,
+              user: {
+                id: sentence.user._id,
+                email: sentence.user.email
+              }
+            })
           }
           resolve(result)
         }

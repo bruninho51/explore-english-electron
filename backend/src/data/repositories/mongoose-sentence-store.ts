@@ -7,11 +7,16 @@ export class MongooseSentenceStore implements SentenceStore {
   constructor (private readonly sentenceRepository: Model<MongooseSentenceSchema>) {}
 
   async store (sentence: Sentence): Promise<void> {
+    console.log(sentence)
     return await new Promise((resolve, reject) => {
       (async () => {
         const model = await this.sentenceRepository.create({
           wordIndex: sentence.wordIndex,
-          sentence: sentence.sentence
+          sentence: sentence.sentence,
+          user: {
+            _id: sentence.user.id,
+            email: sentence.user.email
+          }
         })
 
         await model.save()

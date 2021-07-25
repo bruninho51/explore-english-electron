@@ -9,13 +9,14 @@ export class SentenceStoreController implements Controller {
   ) {}
 
   async handle (request: HttpRequest): Promise<HttpResponse> {
+    const { user } = request
     try {
       const errors = await this.validation.validate(request.body)
       if (errors) {
         return badRequest(errors)
       }
 
-      await this.sentenceStore.store(request.body)
+      await this.sentenceStore.store({ ...request.body, user })
       return created()
     } catch (error) {
       return serverError(error)

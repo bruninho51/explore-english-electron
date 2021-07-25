@@ -9,13 +9,14 @@ export class MovieStoreController implements Controller {
   ) {}
 
   async handle (request: HttpRequest): Promise<HttpResponse> {
+    const { user } = request
     try {
       const errors = await this.validation.validate(request.body)
       if (errors) {
         return badRequest(errors)
       }
 
-      await this.movieStore.store(request.body)
+      await this.movieStore.store({ ...request.body, user })
       return created()
     } catch (error) {
       return serverError(error)

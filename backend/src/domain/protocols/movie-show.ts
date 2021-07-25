@@ -1,7 +1,5 @@
-import { Movie } from '@/domain/models/movie'
-
 export interface MovieShow {
-  show: (movieId: string) => Promise<Movie>
+  show: (movieId: string) => Promise<MovieShow.Result>
 }
 
 export namespace MovieShow {

@@ -5,6 +5,6 @@ import { makeMongooseSentenceShowController } from '@/main/factories/controllers
 import { auth } from '@/main/middlewares/auth'
 
 export default async (router: Router): Promise<void> => {
-  router.post('/sentence', adaptRoute(await makeMongooseSentenceStoreController()))
+  router.post('/sentence', auth, adaptRoute(await makeMongooseSentenceStoreController()))
   router.get('/sentence/:sentenceId', auth, adaptRoute(await makeMongooseSentenceShowController()))
 }
