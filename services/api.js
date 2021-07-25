@@ -3,6 +3,10 @@ import config from '../config/config'
 
 const api = axios.create({
  baseURL: config.SERVER_BASE_URL,
+ headers: {
+    'Accept': 'application/json',
+    'Content-Type': 'application/json'
+ }
 });
 
 /*api.interceptors.response.use(response => response, _error => {

@@ -6,6 +6,7 @@ import { MainContainer } from './MainContainer'
 import { saveSentenceMovie } from '../services/save-sentence-movie'
 import '../assets/css/App.css'
 import { useAuth } from '../contexts/auth'
+import api from '../services/api'
 
 function Player({ movieId, movieName, onHome }) {
   const [video, setVideo] = useState('file:///home/bruno/Downloads/Pitch Atomon.mp4')
@@ -20,20 +21,29 @@ function Player({ movieId, movieName, onHome }) {
   }, [])
 
   const onExport = () => {
-    return fetch(`http://localhost:3000/api/movie/${movieId}/sentence`)
+    return api.get(`/movie/${movieId}/sentence`)
+      .then(response => window.on.exportMovieData(movieName, response.data))
+    /*return fetch(`http://localhost:3000/api/movie/${movieId}/sentence`)
       .then((response) => response.json())
-      .then((sentences) => window.on.exportMovieData(movieName, sentences))
+      .then((sentences) => window.on.exportMovieData(movieName, sentences))*/
   }
 
   const getPhrasesFromMovie = () => {
-    fetch(`http://localhost:3000/api/movie/${movieId}/sentence`)
+    api.get(`/movie/${movieId}/sentence`)
+      .then(response => {
+        setPhrases(response.data.map(sentence => ({
+          ...sentence,
+          status: 'saved'
+        })))
+      })
+    /*fetch(`http://localhost:3000/api/movie/${movieId}/sentence`)
       .then(response => response.json())
       .then((sentences) => { 
         setPhrases(sentences.map(sentence => ({
           ...sentence,
           status: 'saved'
         })))
-      })
+      })*/
   }
 
   return (
@@ -92,14 +102,20 @@ function App() {
   const goHome = () => selectMovie({})
 
   const getMovies = () => {
-    fetch('http://localhost:3000/api/movie')
+    api.get('/movie')
+      .then(response => setMovies(response.data))
+    /*fetch('http://localhost:3000/api/movie')
       .then(response => response.json())
-      .then((data) => setMovies(data))
+      .then((data) => setMovies(data))*/
   }
 
   const onCreateMovie = (movie) => {
-    console.log(movie)
-    fetch('http://localhost:3000/api/movie', {
+    api.post('/movie', movie)
+      .then(() => {
+        getMovies()
+      })
+
+    /*fetch('http://localhost:3000/api/movie', {
       method: 'post',
       headers: {
         'Accept': 'application/json',
@@ -109,7 +125,7 @@ function App() {
     })
       .then(() => {
         getMovies()
-      })
+      })*/
   }
 
   useEffect(() => {
@@ -117,10 +133,12 @@ function App() {
   }, []);
 
   const removeMovie = (id) => {
-    fetch(`http://localhost:3000/api/movie/${id}`, {
+    api.delete(`/movie/${id}`)
+      .then(() => getMovies())
+    /*fetch(`http://localhost:3000/api/movie/${id}`, {
       method: 'delete',
     })
-      .then(() => getMovies())
+      .then(() => getMovies())*/
   }
 
   return (
