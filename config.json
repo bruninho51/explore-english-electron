@@ -1,0 +1,10 @@
+{
+    "dest": "release-builds/explore-english-linux-x64/deb/",
+    "icon": "assets/icon.png",
+    "categories": [
+      "Utility"
+    ],
+    "lintianOverrides": [
+      "changelog-file-missing-in-native-package"
+    ]
+  }

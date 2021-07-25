@@ -81,7 +81,7 @@ export const Login = () => {
  return (
    <Container>
      <ContainerLogin>
-       <img class="icon" style={{width: '50%'}} src="../assets/icon.png" />
+       <img class="icon" style={{width: '50%'}} src="assets/icon.png" />
        <TextInputStyle type="text" name="email" value={email} onChange={(event) => setEmail(event.target.value)} />
        <TextInputStyle type="password" name="password" value={password} onChange={(event) => setPassword(event.target.value)} />
        <SizedBox height="10px" />

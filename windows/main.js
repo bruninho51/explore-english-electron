@@ -1,12 +1,12 @@
 const { BrowserWindow } = require("electron");
-const { dist } = require("../helpers/helpers");
 const path = require('path')
+const NativeImage = require('electron').nativeImage
 
 const createMainWindow = () => {
     const win = new BrowserWindow({
       width: 1200,
       height: 600,
-      icon: path.join(__dirname, '..', 'assets', 'icon.png'),
+      icon: NativeImage.createFromPath(path.join(__dirname, '..', 'assets', 'icon.png')),
       webPreferences: {
         nodeIntegration: false,
         webSecurity: true,
@@ -17,8 +17,11 @@ const createMainWindow = () => {
       title: 'Explore English'
     });
   
-    win.loadURL( `file://${dist(['index.html'])}`);
-    win.webContents.openDevTools()
+    win.loadURL(`file://${__dirname}/../index.html`);
+
+    if (process.env.NODE_ENV === 'development') {
+      win.webContents.openDevTools()
+    }
   
     return win
 }
