@@ -7,11 +7,15 @@
       "sourceMap": true,
       "rootDirs": ["src", "tests"],
       "baseUrl": "src",
+      "typeRoots": [
+        "@types",
+        "./node_modules/@types",
+      ],
       "paths": {
         "@/tests/*": ["../tests/*"],
         "@/*": ["*"]
       }
     },
-    "include": ["src", "tests"],
+    "include": ["src", "tests", "@types/custom_modules.d.ts"],
     "exclude": []
 }
