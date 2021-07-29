@@ -2,8 +2,8 @@ import { Controller, HttpRequest, HttpResponse } from '@/presentation/protocols'
 import { serverError, ok, badGateway } from '@/presentation/helpers/http/http-helper'
 import CardRepository from '@/domain/protocols/card-repository'
 import Anki from '@/data/repositories/anki'
-import { DefaultAnkiCardTheme } from '@/domain/card-themes/anki-card-theme'
-import { AnkiConnectionError } from '../errors/anki-connection-error'
+import { DefaultAnkiCardTheme } from '@/data/card-themes/anki-card-theme'
+import { AnkiConnectionError } from '@/presentation/errors/anki-connection-error'
 
 export class AnkiDecksAvailableController implements Controller {
   async handle (_request: HttpRequest): Promise<HttpResponse> {

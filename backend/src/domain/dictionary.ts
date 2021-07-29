@@ -5,8 +5,9 @@ import { Pronunciation } from './pronunciation'
 
 export interface Dictionary{
   getDictionaryContent: () => Promise<string>
-  searchPronunciation: () => Promise<Pronunciation>
+  searchPronunciation: (params: { withSound?: boolean }) => Promise<Pronunciation>
   searchDefinitions: () => Promise<Definition[]>
-  searchExamples: () => Promise<Example[]>
+  searchExamples: (params: { withSound?: boolean }) => Promise<Example[]>
   searchGrammarClasses: () => GrammarClass[]
+  forWord: (word: string) => Dictionary
 }
