@@ -1,6 +1,10 @@
 {
+    "productName": "Explore English",
+    "version": "1.0.0-alpha.2",
+    "name": "explore-english",
     "dest": "release-builds/explore-english-linux-x64/deb/",
-    "icon": "assets/icon.png",
+    "icon": "icons/icon.png",
+    "maintainer": "Bruno Mendes Pimenta",
     "categories": [
       "Utility"
     ],

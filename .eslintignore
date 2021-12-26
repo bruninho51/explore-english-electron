@@ -1,0 +1,5 @@
+node_modules
+dist
+.vscode
+backend
+release-builds

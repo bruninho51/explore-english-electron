@@ -1,0 +1,20 @@
+{
+    "extends": ["standard-with-typescript", "plugin:react/recommended"],
+    "parserOptions": {
+        "project": "./tsconfig.json"
+    },
+    "rules": {
+        "semi": [2, "always"],
+        "indent": ["off", 2],
+        "@typescript-eslint/semi": "off",
+        "prefer-promise-reject-errors": ["error", {"allowEmptyReject": true}],
+        "react/jsx-indent" : ["error", 2],
+        "react/react-in-jsx-scope": "off",
+        "@typescript-eslint/strict-boolean-expression": "off",
+        "@typescript-eslint/consistent-type-definitions": "off",
+        "@typescript-eslint/strict-boolean-expressions": "off",
+        "@typescript-eslint/no-floating-promises": "off",
+        "@typescript-eslint/no-this-alias": "off",
+        "no-useless-escape": "off"
+    }
+}
