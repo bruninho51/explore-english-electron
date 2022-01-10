@@ -39,7 +39,8 @@
     "run-p": "0.0.0",
     "styled-components": "^5.3.3",
     "uuid": "^8.3.2",
-    "video.js": "^7.17.0"
+    "video.js": "^7.17.0",
+    "cheerio": "^1.0.0-rc.10"
   },
   "devDependencies": {
     "@babel/core": "^7.16.5",
