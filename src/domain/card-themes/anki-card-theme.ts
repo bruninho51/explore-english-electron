@@ -19,14 +19,14 @@ export class DefaultAnkiCardTheme implements AnkiCardTheme {
       deckName: deck,
       modelName: 'Basic'
     }).fields({
-      Front: sentence.sentence,
+      Front: sentence.sentence.sentence,
       Back: this.buildBackString(pronunciation, grammarClasses)
     }).options({
-      allowDuplicate: true
+      allowDuplicate: false
     }).audio([
       {
         url: pronunciation.soundUrl,
-        filename: `${Date.now()}.mp3`,
+        filename: `${sentence.sentence.word}.mp3`,
         fields: ['Front', 'Back']
       }
     ]);

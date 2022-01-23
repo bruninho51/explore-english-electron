@@ -14,6 +14,36 @@ class AnkiRepository implements CardRepository {
     this._deck = deck;
   }
 
+  async createDeck (deckName: string): Promise<boolean> {
+    return await new Promise((resolve, reject) => {
+      const body = JSON.stringify({
+        action: 'createDeck',
+        version: 6,
+        params: {
+          deck: deckName
+        }
+      });
+
+      const request = http.request({
+        host: 'localhost',
+        method: 'POST',
+        port: 8765,
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+          'Content-Length': Buffer.byteLength(body)
+        }
+      }, () => resolve(true));
+
+      request.on('error', () => {
+        reject(new AnkiConnectionError());
+      });
+
+      request.write(body);
+
+      request.end();
+    });
+  }
+
   async getAvailableDecks (): Promise<string[]> {
     const response: string[] = await new Promise((resolve, reject) => {
       let result = '';
@@ -64,6 +94,8 @@ class AnkiRepository implements CardRepository {
     const response: any = await new Promise((resolve, reject) => {
       let result = '';
       const params = JSON.stringify(noteBuilder.build());
+
+      console.log(params);
 
       const request = http.request({
         host: 'localhost',

@@ -7,7 +7,6 @@ export const CardStyle = styled.div<{ status: string }>`
   background: #FFF;
   border-radius: 5px;
   box-shadow: 0px 5px 15px 0px;
-  padding: 5px 50px 5px 10px;
   font: 24px Roboto, sans-serif;
   text-align: center;
   margin: ${(props: any) => props.status ? '5px 0px 30px 0px;' : '5px 0px 5px 0px;'};

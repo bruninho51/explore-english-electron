@@ -43,15 +43,19 @@ export class Sentence extends Element {
       this._sentenceWordGetter.getWord(this._sentence)
     ).getDictionaryContent();
 
+    console.log('conteúdo do dicionário carregado!');
+
     const examples = await this._dictionary.searchExamples({ withSound: true });
     const definitions = await this._dictionary.searchDefinitions();
+
     const grammarClasses = await this._dictionary.searchGrammarClasses();
+
     const pronunciation = await this._dictionary.searchPronunciation({ withSound: true });
 
     card.pushChild(this);
     card.pushChild(pronunciation);
 
-    grammarClasses.forEach((gC, index) => {
+    grammarClasses.forEach((gC: Element, index: number) => {
       card.pushChild(gC);
       if (examples[index]) gC.pushChild(examples[index]);
       if (definitions[index]) gC.pushChild(definitions[index]);

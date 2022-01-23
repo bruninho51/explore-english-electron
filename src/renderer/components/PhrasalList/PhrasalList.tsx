@@ -19,6 +19,7 @@ export const PhrasalList = ({ phrases, onDelete }: { phrases: Sentence[], onDele
               sentence={phrase.sentence}
               onDelete={onDelete}
               status={phrase.status}
+              savedOnAnki={phrase.savedOnAnki}
             />
           ))}
         </Scrollbars>

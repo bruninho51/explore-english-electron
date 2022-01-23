@@ -38,5 +38,9 @@ contextBridge.exposeInMainWorld('electron', {
     }
     const writeFile = promisify(fs.writeFile);
     return await writeFile(path.join(dir, fileName), JSON.stringify(sentences), 'utf8');
+  },
+
+  createCardsOnAnki: async (params: { movieTitle: string, phrase: Sentence }): Promise<string> => {
+    return await ipcRenderer.invoke('scrapeToAnki', JSON.stringify(params));
   }
 });

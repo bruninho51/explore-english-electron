@@ -5,6 +5,7 @@ declare global{
     openSrt: (setState: Function) => void
     openVideo: (setState: Function) => void
     exportMovieData: (movieName: string, sentences: Sentence[]) => Promise<void>
+    createCardsOnAnki: ({ movieTitle, phrase }: { movieTitle: string, phrase: Sentence }) => Promise<string>
   };
 }
 

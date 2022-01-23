@@ -10,6 +10,7 @@ import api from '../../../services/api';
 import { Sentence } from '../../../domain/models/sentence';
 import { AxiosResponse, AxiosError } from 'axios';
 import { Movie } from '../../../domain/models/movie';
+import { saveSentenceAnki } from '../../../services/save-sentence-anki';
 
 function Player ({ movieId, movieName, onHome }: { movieId: string, movieName: string, onHome: MouseEventHandler<HTMLButtonElement> }): ReactElement {
   const [video, setVideo] = useState('file:///home/bruno/Downloads/Pitch Atomon.mp4');
@@ -64,7 +65,8 @@ function Player ({ movieId, movieName, onHome }: { movieId: string, movieName: s
                 status.failed();
               });
           }
-        }} />
+        }}
+        saveOnAnki={saveSentenceAnki}/>
     </React.Fragment>
   );
 }

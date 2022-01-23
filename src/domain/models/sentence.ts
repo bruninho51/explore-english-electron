@@ -3,5 +3,6 @@ export interface Sentence {
   wordIndex: number
   sentence: string
   word: string
+  savedOnAnki: boolean
   status?: string
 }

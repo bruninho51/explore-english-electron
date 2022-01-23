@@ -7,32 +7,39 @@ import { Pronunciation } from '../pronunciation';
 import { Dictionary } from '../protocols/dictionary';
 import { WordNotFoundError } from '../errors/word-not-found-error';
 import { UninitializedError } from '../errors/uninitialized-error';
+import { BrowserWindow } from 'electron';
 
-export class Collins implements Dictionary {
+export class CollinsElectron implements Dictionary {
   private readonly dictionaryUrl: string = 'https://www.collinsdictionary.com/pt/dictionary/english'
   private _word: string
   private $: any
 
-  forWord (word: string): Collins {
+  constructor (private readonly scrapingWindow: BrowserWindow) {}
+
+  forWord (word: string): CollinsElectron {
     this._word = word;
     return this;
   }
 
   async getDictionaryContent (): Promise<string> {
     if (!this._word) {
+      console.log('word: ', this._word);
       throw new WordNotFoundError();
     }
 
-    let websiteContent: string;
     return await new Promise((resolve, reject) => {
-      https.get(`${this.dictionaryUrl}/${this._word}`, (res) => {
-        res.on('data', data => {
-          websiteContent += String(data);
-        });
+      // carrega página do collins na janela o extrai o html
+      const url = `${this.dictionaryUrl}/${this._word}`;
+      this.scrapingWindow.loadURL(url);
 
-        if (res.statusCode && res.statusCode.toString()[0] !== '2') { reject(new WordNotFoundError()); }
-
-        res.on('end', () => {
+      this.scrapingWindow.webContents.executeJavaScript(`
+        function gethtml () {
+          return new Promise((resolve, reject) => { resolve(document.documentElement.innerHTML); });
+        }
+        gethtml();`
+      )
+        .then(websiteContent => {
+          console.log('websiteContent');
           if (!websiteContent) {
             reject(new WordNotFoundError());
           } else {
@@ -40,12 +47,12 @@ export class Collins implements Dictionary {
             resolve(websiteContent);
           }
         });
-      }).on('error', (err) => reject(err));
     });
   }
 
   async searchPronunciation (params: { withSound: boolean }): Promise<Pronunciation> {
     if (!this._word) {
+      console.log('word: ', this._word);
       throw new WordNotFoundError();
     }
 
@@ -77,6 +84,7 @@ export class Collins implements Dictionary {
 
   async searchDefinitions (): Promise<Definition[]> {
     if (!this._word) {
+      console.log('word: ', this._word);
       throw new WordNotFoundError();
     }
 
@@ -89,6 +97,7 @@ export class Collins implements Dictionary {
 
   searchGrammarClasses (): GrammarClass[] {
     if (!this._word) {
+      console.log('word: ', this._word);
       throw new WordNotFoundError();
     }
 
@@ -107,11 +116,11 @@ export class Collins implements Dictionary {
 
   async searchExamples (params: { withSound: boolean }): Promise<Example[]> {
     if (!this._word) {
+      console.log('word: ', this._word);
       throw new WordNotFoundError();
     }
 
     if (!this.$) { throw new UninitializedError(); }
-
     const exampleNodes = this.$('.type-example');
     const examples: Example[] = [];
 
@@ -126,12 +135,12 @@ export class Collins implements Dictionary {
 
         let exampleSoundUrl: any;
         try {
-          exampleSoundUrl = exampleNodes[i].children[1].children[0].attribs['data-src-mp3'];
+          exampleSoundUrl = exampleNodes[i]?.children[1]?.children[0]?.attribs['data-src-mp3'];
         } catch (error) {
-          exampleSoundUrl = exampleNodes[i].children[3].children[1].attribs['data-src-mp3'];
+          exampleSoundUrl = exampleNodes[i]?.children[3]?.children[1]?.attribs['data-src-mp3'];
         }
 
-        const soundBuffer: Buffer = params.withSound
+        const soundBuffer: Buffer = exampleSoundUrl && params.withSound
           ? await new Promise((resolve) => {
             https.get(exampleSoundUrl, res => {
               const soundBuffers: Buffer[] = [];
