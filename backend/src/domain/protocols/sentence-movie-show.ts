@@ -10,6 +10,7 @@ export namespace SentenceMovieShow {
     wordIndex: number
     sentence: string
     word: string
+    savedOnAnki: boolean
   }
   export type Result = SentenceDto[]
 }

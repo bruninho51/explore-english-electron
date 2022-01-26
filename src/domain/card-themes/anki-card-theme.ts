@@ -10,7 +10,8 @@ import { Sentence } from '../sentence';
 export class DefaultAnkiCardTheme implements AnkiCardTheme {
   getTemplate (deck: string, card: Card): NoteBuilder {
     const sentence: Sentence = card.children.filter(child => child instanceof Sentence)[0] as unknown as Sentence;
-    const pronunciation: Pronunciation = card.children.filter(child => child instanceof Pronunciation)[0] as unknown as Pronunciation;
+    // pronunciation pode não ser encontrado
+    const pronunciation: Pronunciation = card.children.filter(child => child instanceof Pronunciation)?.[0] as unknown as Pronunciation;
     const grammarClassesElements = card.children.filter(child => child instanceof GrammarClass);
     const grammarClasses = grammarClassesElements.map(gC => gC as unknown as GrammarClass);
 
@@ -23,18 +24,23 @@ export class DefaultAnkiCardTheme implements AnkiCardTheme {
       Back: this.buildBackString(pronunciation, grammarClasses)
     }).options({
       allowDuplicate: false
-    }).audio([
-      {
-        url: pronunciation.soundUrl,
-        filename: `${sentence.sentence.word}.mp3`,
-        fields: ['Front', 'Back']
-      }
-    ]);
+    });
+
+    if (pronunciation) {
+      noteBuilder.audio([
+        {
+          url: pronunciation.soundUrl,
+          filename: `${sentence.sentence.word}.mp3`,
+          fields: ['Front', 'Back']
+        }
+      ]);
+    }
+
     return noteBuilder;
   }
 
   buildBackString (pronunction: Pronunciation, grammarClasses: GrammarClass[]): string {
-    let finalString = `<b>${pronunction.pronunciation}</b><br><br>`;
+    let finalString = `<b>${pronunction?.pronunciation}</b><br><br>`;
 
     grammarClasses.forEach(gC => {
       finalString += `<b>${gC.grammarClass}</b><br>`;

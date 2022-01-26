@@ -11,7 +11,7 @@ import { SentenceWordGetter } from './domain/usecases/sentence-word-getter';
 import windows from './windows';
 import { Card } from './domain/card';
 
-app.commandLine.appendSwitch('ignore-certificate-errors');
+// app.commandLine.appendSwitch('ignore-certificate-errors');
 
 app.whenReady().then(() => {
   const mainWindow = windows.createMainWindow();
@@ -30,6 +30,7 @@ app.whenReady().then(() => {
     try {
       const sentenceEntity = new SentenceEntity(phrase, dictionary, sentenceWordGetter);
       const card: Card = await sentenceEntity.searchForWord();
+      console.log('card got');
       const saveResult = await card.save(repository);
       console.log('Result: ', saveResult);
       return await Promise.resolve(phrase.id);

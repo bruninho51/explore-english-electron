@@ -3,7 +3,7 @@ info:
   description: "Explorenglish is a platform created to increase your understanding of the English language through videos and spaced repetition."
   version: "1.0.0"
   title: "Explore English"
-host: "localhost:3000"
+host: "localhost:5050"
 basePath: "/api"
 tags:
 - name: "Movies"

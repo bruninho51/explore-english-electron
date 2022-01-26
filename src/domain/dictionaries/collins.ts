@@ -16,11 +16,6 @@ export class CollinsElectron implements Dictionary {
 
   constructor (private readonly scrapingWindow: BrowserWindow) {}
 
-  forWord (word: string): CollinsElectron {
-    this._word = word;
-    return this;
-  }
-
   async getDictionaryContent (): Promise<string> {
     if (!this._word) {
       console.log('word: ', this._word);
@@ -30,15 +25,16 @@ export class CollinsElectron implements Dictionary {
     return await new Promise((resolve, reject) => {
       // carrega página do collins na janela o extrai o html
       const url = `${this.dictionaryUrl}/${this._word}`;
+
       this.scrapingWindow.loadURL(url);
 
-      this.scrapingWindow.webContents.executeJavaScript(`
-        function gethtml () {
-          return new Promise((resolve, reject) => { resolve(document.documentElement.innerHTML); });
-        }
-        gethtml();`
-      )
-        .then(websiteContent => {
+      this.scrapingWindow.webContents.once('dom-ready', () => {
+        this.scrapingWindow.webContents.executeJavaScript(`
+          function gethtml () {
+            return new Promise((resolve, reject) => { resolve(document.documentElement.innerHTML); });
+          }
+          gethtml();`
+        ).then(websiteContent => {
           console.log('websiteContent');
           if (!websiteContent) {
             reject(new WordNotFoundError());
@@ -47,10 +43,11 @@ export class CollinsElectron implements Dictionary {
             resolve(websiteContent);
           }
         });
+      });
     });
   }
 
-  async searchPronunciation (params: { withSound: boolean }): Promise<Pronunciation> {
+  async searchPronunciation (params: { withSound?: boolean }): Promise<Pronunciation> {
     if (!this._word) {
       console.log('word: ', this._word);
       throw new WordNotFoundError();
@@ -63,24 +60,40 @@ export class CollinsElectron implements Dictionary {
 
     const pronunciationDownloadUrl: string = this.$('.sound').attr('data-src-mp3');
 
-    const soundBuffer: Buffer = params.withSound
-      ? await new Promise((resolve) => {
-        https.get(pronunciationDownloadUrl, res => {
-          const soundBuffers: Buffer[] = [];
+    let soundBuffer: Buffer = null;
+    try {
+      soundBuffer = params.withSound
+        ? await new Promise((resolve, reject) => {
+          const req = https.get(pronunciationDownloadUrl, res => {
+            const soundBuffers: Buffer[] = [];
 
-          res.on('data', chunk => {
-            soundBuffers.push(chunk);
+            res.on('data', chunk => {
+              soundBuffers.push(chunk);
+            });
+
+            res.on('end', () => {
+              resolve(Buffer.concat(soundBuffers));
+            });
           });
 
-          res.on('end', () => {
-            resolve(Buffer.concat(soundBuffers));
+          req.on('socket', function (socket) {
+            socket.setTimeout(1000 * 5);
+            socket.on('timeout', function () {
+              req.destroy();
+            });
           });
-        });
-      })
-      : Buffer.from('');
+
+          req.on('error', (e) => {
+            reject(e);
+          });
+        })
+        : Buffer.from('');
+    } catch (error) {
+      return null;
+    }
 
     return new Pronunciation(pronunciationText, soundBuffer, pronunciationDownloadUrl);
-  }
+  };
 
   async searchDefinitions (): Promise<Definition[]> {
     if (!this._word) {
@@ -93,28 +106,9 @@ export class CollinsElectron implements Dictionary {
     const definitionsContent = this.$('.def').text().replace(/(\r\n|\r|\n)/g, '').split('.');
 
     return definitionsContent.map((definition: string) => new Definition(definition));
-  }
+  };
 
-  searchGrammarClasses (): GrammarClass[] {
-    if (!this._word) {
-      console.log('word: ', this._word);
-      throw new WordNotFoundError();
-    }
-
-    if (!this.$) { throw new UninitializedError(); }
-
-    const cheerioElements = this.$('.hom>.gramGrp>.pos');
-
-    const grammarClasses: GrammarClass[] = [];
-
-    for (let i = 0; i < cheerioElements.length; i++) {
-      grammarClasses.push(new GrammarClass(cheerioElements[i].children[0].data));
-    }
-
-    return grammarClasses;
-  }
-
-  async searchExamples (params: { withSound: boolean }): Promise<Example[]> {
+  async searchExamples (params: { withSound?: boolean }): Promise<Example[]> {
     if (!this._word) {
       console.log('word: ', this._word);
       throw new WordNotFoundError();
@@ -140,26 +134,70 @@ export class CollinsElectron implements Dictionary {
           exampleSoundUrl = exampleNodes[i]?.children[3]?.children[1]?.attribs['data-src-mp3'];
         }
 
-        const soundBuffer: Buffer = exampleSoundUrl && params.withSound
-          ? await new Promise((resolve) => {
-            https.get(exampleSoundUrl, res => {
-              const soundBuffers: Buffer[] = [];
+        let soundBuffer: Buffer = null;
+        try {
+          soundBuffer = exampleSoundUrl && params.withSound
+            ? await new Promise((resolve, reject) => {
+              console.log('getting sound...');
+              console.log(exampleSoundUrl);
+              const req = https.get(exampleSoundUrl, res => {
+                const soundBuffers: Buffer[] = [];
 
-              res.on('data', chunk => {
-                soundBuffers.push(chunk);
+                res.on('data', chunk => {
+                  console.log('downloading sound...');
+                  soundBuffers.push(chunk);
+                });
+
+                res.on('end', () => {
+                  console.log('sound download is finished');
+                  resolve(Buffer.concat(soundBuffers));
+                });
               });
 
-              res.on('end', () => {
-                resolve(Buffer.concat(soundBuffers));
+              req.on('error', (e) => {
+                reject(e);
               });
-            });
-          })
-          : Buffer.from('');
+
+              req.on('socket', function (socket) {
+                socket.setTimeout(1000 * 5);
+                socket.on('timeout', function () {
+                  req.destroy();
+                });
+              });
+            })
+            : Buffer.from('');
+        } catch (error) {
+          console.log(error);
+        }
 
         examples.push(new Example(exampleText, soundBuffer, exampleSoundUrl));
       }
     }
 
     return examples;
-  }
+  };
+
+  searchGrammarClasses (): GrammarClass[] {
+    if (!this._word) {
+      console.log('word: ', this._word);
+      throw new WordNotFoundError();
+    }
+
+    if (!this.$) { throw new UninitializedError(); }
+
+    const cheerioElements = this.$('.hom>.gramGrp>.pos');
+
+    const grammarClasses: GrammarClass[] = [];
+
+    for (let i = 0; i < cheerioElements.length; i++) {
+      grammarClasses.push(new GrammarClass(cheerioElements[i].children[0].data));
+    }
+
+    return grammarClasses;
+  };
+
+  forWord (word: string): Dictionary {
+    this._word = word;
+    return this;
+  };
 }

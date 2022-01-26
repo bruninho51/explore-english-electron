@@ -6,6 +6,7 @@ export type MongooseSentenceSchema = {
   _id: string
   wordIndex: number
   sentence: string
+  savedOnAnki?: boolean
   user?: {
     _id: string
     email: string
@@ -21,6 +22,7 @@ export class MongooseSentence implements MongooseModel<MongooseSentenceSchema> {
     const schema = new this.mongoose.Schema({
       wordIndex: { type: Number },
       sentence: { type: String },
+      savedOnAnki: { type: Boolean },
       user: {
         _id: { type: ObjectId },
         email: { type: String }
