@@ -6,9 +6,9 @@ export const createScrapingWindow = (mainWindow: BrowserWindow): BrowserWindow =
     center: true,
     minWidth: 800,
     minHeight: 600,
-    show: true,
+    show: false,
     webPreferences: {
-      nodeIntegration: false // https://electronjs.org/docs/tutorial/security#2-d%C3%A9sactiver-lint%C3%A9gration-de-nodejs-dans-tous-les-renderers-affichant-des-contenus-distants
+      nodeIntegration: false
     }
   });
 

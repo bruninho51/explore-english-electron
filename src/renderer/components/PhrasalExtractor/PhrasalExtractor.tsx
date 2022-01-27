@@ -42,6 +42,15 @@ export const PhrasalExtractor = (props: { phrases: Sentence[], videoPlayer: any,
   };
 
   const saveCardsOnAnki = async (callback: Function): Promise<void> => {
+    setDialog({
+      title: 'Saving',
+      body: 'Saving, please wait ...',
+      // labelBtn1: 'Ok',
+      onClickBtn1: () => {
+        setDialog(null);
+      }
+    });
+
     const status = (index: number): { failed: Function, saved: Function } => ({
       failed: () => {
         const newPhrases = [...phrases];
@@ -56,6 +65,7 @@ export const PhrasalExtractor = (props: { phrases: Sentence[], videoPlayer: any,
     });
 
     let affectedSentences = 0;
+    let ankiConnectionError = false;
 
     const movieTitle = props.title;
     for (let i = 0; i < phrases.length; i++) {
@@ -64,11 +74,36 @@ export const PhrasalExtractor = (props: { phrases: Sentence[], videoPlayer: any,
           await callback(movieTitle, phrases[i]);
           status(i).saved();
           affectedSentences++;
+
+          setDialog({
+            title: 'Saving',
+            body: `Saving, please wait ... Saved ${affectedSentences} cards`,
+            // labelBtn1: 'Ok',
+            onClickBtn1: () => {
+              setDialog(null);
+            }
+          });
         }
       } catch (error) {
+        if (error.message.includes('ConnectionError')) {
+          ankiConnectionError = true;
+          break;
+        }
         console.log(error);
         status(i).failed();
       }
+    }
+
+    if (ankiConnectionError) {
+      setDialog({
+        title: 'Information',
+        body: 'Please make sure Anki is running!',
+        labelBtn1: 'Ok',
+        onClickBtn1: () => {
+          setDialog(null);
+        }
+      });
+      return;
     }
 
     if (!affectedSentences) {
@@ -80,16 +115,17 @@ export const PhrasalExtractor = (props: { phrases: Sentence[], videoPlayer: any,
           setDialog(null);
         }
       });
-    } else {
-      setDialog({
-        title: 'Information',
-        body: `Cards saved successfully! Affected sentences: ${affectedSentences}`,
-        labelBtn1: 'Ok',
-        onClickBtn1: () => {
-          setDialog(null);
-        }
-      });
+      return;
     }
+
+    setDialog({
+      title: 'Information',
+      body: `Cards saved successfully! Affected sentences: ${affectedSentences}`,
+      labelBtn1: 'Ok',
+      onClickBtn1: () => {
+        setDialog(null);
+      }
+    });
   };
 
   return (

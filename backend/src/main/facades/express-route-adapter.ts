@@ -9,7 +9,6 @@ export const adaptRoute = (controller: Controller) => {
       params: { ...req.query, ...req.params }
     }
     const httpReponse = await controller.handle(httpRequest)
-    console.dir(httpReponse, { depth: null })
     if (httpReponse.statusCode >= 200 && httpReponse.statusCode <= 299) {
       res.status(httpReponse.statusCode).json(httpReponse.body)
     } else if (httpReponse.statusCode >= 400 && httpReponse.statusCode <= 499) {

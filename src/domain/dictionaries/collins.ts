@@ -18,7 +18,6 @@ export class CollinsElectron implements Dictionary {
 
   async getDictionaryContent (): Promise<string> {
     if (!this._word) {
-      console.log('word: ', this._word);
       throw new WordNotFoundError();
     }
 
@@ -35,7 +34,6 @@ export class CollinsElectron implements Dictionary {
           }
           gethtml();`
         ).then(websiteContent => {
-          console.log('websiteContent');
           if (!websiteContent) {
             reject(new WordNotFoundError());
           } else {
@@ -49,7 +47,6 @@ export class CollinsElectron implements Dictionary {
 
   async searchPronunciation (params: { withSound?: boolean }): Promise<Pronunciation> {
     if (!this._word) {
-      console.log('word: ', this._word);
       throw new WordNotFoundError();
     }
 
@@ -97,7 +94,6 @@ export class CollinsElectron implements Dictionary {
 
   async searchDefinitions (): Promise<Definition[]> {
     if (!this._word) {
-      console.log('word: ', this._word);
       throw new WordNotFoundError();
     }
 
@@ -110,7 +106,6 @@ export class CollinsElectron implements Dictionary {
 
   async searchExamples (params: { withSound?: boolean }): Promise<Example[]> {
     if (!this._word) {
-      console.log('word: ', this._word);
       throw new WordNotFoundError();
     }
 
@@ -138,18 +133,14 @@ export class CollinsElectron implements Dictionary {
         try {
           soundBuffer = exampleSoundUrl && params.withSound
             ? await new Promise((resolve, reject) => {
-              console.log('getting sound...');
-              console.log(exampleSoundUrl);
               const req = https.get(exampleSoundUrl, res => {
                 const soundBuffers: Buffer[] = [];
 
                 res.on('data', chunk => {
-                  console.log('downloading sound...');
                   soundBuffers.push(chunk);
                 });
 
                 res.on('end', () => {
-                  console.log('sound download is finished');
                   resolve(Buffer.concat(soundBuffers));
                 });
               });
@@ -179,7 +170,6 @@ export class CollinsElectron implements Dictionary {
 
   searchGrammarClasses (): GrammarClass[] {
     if (!this._word) {
-      console.log('word: ', this._word);
       throw new WordNotFoundError();
     }
 

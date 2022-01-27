@@ -95,8 +95,6 @@ class AnkiRepository implements CardRepository {
       let result = '';
       const params = JSON.stringify(noteBuilder.build());
 
-      console.log(params);
-
       const request = http.request({
         host: 'localhost',
         method: 'POST',

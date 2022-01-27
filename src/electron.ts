@@ -25,17 +25,13 @@ app.whenReady().then(() => {
     const dictionary: Dictionary = new CollinsElectron(scrapingWindow);
     const repository: CardRepository = new AnkiRepository(deckName, new DefaultAnkiCardTheme());
 
-    await repository.createDeck(deckName);
-
     try {
+      await repository.createDeck(deckName);
       const sentenceEntity = new SentenceEntity(phrase, dictionary, sentenceWordGetter);
       const card: Card = await sentenceEntity.searchForWord();
-      console.log('card got');
-      const saveResult = await card.save(repository);
-      console.log('Result: ', saveResult);
+      await card.save(repository);
       return await Promise.resolve(phrase.id);
     } catch (error) {
-      console.log(error.stack);
       return await Promise.reject(error);
     }
   });

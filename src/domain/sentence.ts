@@ -43,21 +43,15 @@ export class Sentence extends Element {
       this._sentenceWordGetter.getWord(this._sentence)
     ).getDictionaryContent();
 
-    console.log('conteúdo do dicionário carregado!');
-
     // pode não ter áudio
     const examples = await this._dictionary.searchExamples({ withSound: true });
-    console.log('exemplos carregados!');
 
     const definitions = await this._dictionary.searchDefinitions();
-    console.log('definições carregados!');
 
     const grammarClasses = await this._dictionary.searchGrammarClasses();
-    console.log('classes gramaticais carregados!');
 
     // pode ser nulo
     const pronunciation = await this._dictionary.searchPronunciation({ withSound: true });
-    console.log('pronuncias carregados!');
 
     card.pushChild(this);
 
