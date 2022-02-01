@@ -1,5 +1,5 @@
 import { MenuItem, MenuItemConstructorOptions } from 'electron';
-import windows from '../windows';
+import { AboutWindow } from '../windows/about';
 
 export const makeTemplateMenu = (openMP4Dialog: Function, openSrtDialog: Function): Array<(MenuItemConstructorOptions) | (MenuItem)> => {
   const menu: any = [];
@@ -34,7 +34,8 @@ export const makeTemplateMenu = (openMP4Dialog: Function, openSrtDialog: Functio
       {
         label: 'About'.padEnd(38, ' '),
         click: () => {
-          windows.createAboutWindow();
+          const about = new AboutWindow();
+          about.show();
         }
       }
     ]

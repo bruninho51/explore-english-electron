@@ -1,28 +1,55 @@
 import { BrowserWindow, nativeImage as NativeImage } from 'electron';
-import path from 'path';
+import { getIcon } from '../helpers/get-icon';
+import { getPreload } from '../helpers/get-preload';
+import { ExploreEnglishWindow } from '../interfaces/explore-english-window.interface';
 
-export const createAboutWindow = (): BrowserWindow => {
-  const win = new BrowserWindow({
-    width: 400,
-    height: 400,
-    icon: NativeImage.createFromPath(path.join(__dirname, '..', 'icons', 'icon.png')),
-    webPreferences: {
-      nodeIntegration: false,
-      webSecurity: true,
-      contextIsolation: true,
-      preload: path.resolve(__dirname, 'preload.js')
-    },
-    resizable: false,
-    title: 'About'
-  });
+export class AboutWindow extends ExploreEnglishWindow {
+  private readonly browserWindow: BrowserWindow
 
-  win.removeMenu();
+  constructor () {
+    super('About');
 
-  win.on('page-title-updated', (evt) => {
-    evt.preventDefault();
-  });
+    this.browserWindow = this.make();
+    this.configureWindowPage();
+    this.configureContextMenu();
+  }
 
-  win.loadFile('about.html');
+  getBrowserWindowInstance (): BrowserWindow {
+    return this.browserWindow;
+  }
 
-  return win;
-};
+  show (): void {
+    this.browserWindow.show();
+  }
+
+  make (): BrowserWindow {
+    return new BrowserWindow({
+      width: 400,
+      height: 400,
+      icon: NativeImage.createFromPath(getIcon('icon')),
+      webPreferences: {
+        nodeIntegration: false,
+        webSecurity: true,
+        contextIsolation: true,
+        preload: getPreload('preload')
+      },
+      show: false,
+      resizable: false,
+      title: 'About'
+    });
+  }
+
+  private configureWindowPage (): void {
+    const browserWindow = this.browserWindow;
+    browserWindow.on('page-title-updated', (evt) => {
+      evt.preventDefault();
+    });
+
+    browserWindow.loadFile('about.html');
+  }
+
+  private configureContextMenu (): void {
+    const browserWindow = this.browserWindow;
+    browserWindow.removeMenu();
+  }
+}

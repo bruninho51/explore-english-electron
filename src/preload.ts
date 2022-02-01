@@ -27,9 +27,6 @@ contextBridge.exposeInMainWorld('electron', {
   openVideo: (setState: Function) => {
     setVideo = setState;
   },
-  /* showExportMessage: (setState: Function) => {
-    setShowExportMessage = setState;
-  }, */
   exportMovieData: async (movieName: string, sentences: Sentence[]): Promise<void> => {
     const fileName = `${movieName}.json`;
     const dir = path.join(os.homedir(), 'exploreenglish');
@@ -39,7 +36,6 @@ contextBridge.exposeInMainWorld('electron', {
     const writeFile = promisify(fs.writeFile);
     return await writeFile(path.join(dir, fileName), JSON.stringify(sentences), 'utf8');
   },
-
   createCardsOnAnki: async (params: { movieTitle: string, phrase: Sentence }): Promise<string> => {
     return await ipcRenderer.invoke('scrapeToAnki', JSON.stringify(params));
   }
