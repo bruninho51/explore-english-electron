@@ -7,6 +7,7 @@ import { makeMongooseSentenceMovieShowController } from '../factories/controller
 import { makeMongooseMoviesShowController } from '../factories/controllers/movies-show-factory'
 import { makeMongooseMovieDeleteController } from '../factories/controllers/movie-delete-factory'
 import { auth } from '@/main/middlewares/auth'
+import { makeMongooseSentenceOnAnkiController } from '../factories/controllers/setence-on-anki-factory'
 
 export default async (router: Router): Promise<void> => {
   router.post('/movie', auth, adaptRoute(await makeMongooseMovieStoreController()))
@@ -15,4 +16,5 @@ export default async (router: Router): Promise<void> => {
   router.delete('/movie/:movieId', auth, adaptRoute(await makeMongooseMovieDeleteController()))
   router.post('/movie/:movieId/sentence', auth, adaptRoute(await makeMongooseSentenceMovieStoreController()))
   router.get('/movie/:movieId/sentence', auth, adaptRoute(await makeMongooseSentenceMovieShowController()))
+  router.patch('/movie/:movieId/sentence/:sentenceId/onAnki', auth, adaptRoute(await makeMongooseSentenceOnAnkiController()))
 }

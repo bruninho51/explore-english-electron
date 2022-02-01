@@ -24,10 +24,11 @@ export class MongooseMovie implements MongooseModel<MongooseMovieSchema> {
   async getModel (): Promise<Model<MongooseMovieSchema>> {
     const schema = new this.mongoose.Schema({
       name: { type: String },
-      sentences: [{
+      sentences: [new this.mongoose.Schema({
         wordIndex: { type: Number },
-        sentence: { type: String }
-      }],
+        sentence: { type: String },
+        savedOnAnki: { type: Boolean }
+      })],
       user: {
         _id: { type: ObjectId },
         email: { type: String }

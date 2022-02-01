@@ -11,7 +11,7 @@ import { Sentence } from '../../../domain/models/sentence';
 import saveImage from '../../images/save.svg';
 import ankiImage from '../../images/anki.png';
 
-export const PhrasalExtractor = (props: { phrases: Sentence[], videoPlayer: any, title: string, save: Function, saveOnAnki: Function }): ReactElement => {
+export const PhrasalExtractor = (props: { phrases: Sentence[], videoPlayer: any, title: string, movieId: string, save: Function, saveOnAnki: Function }): ReactElement => {
   const [phrases, setPhrases] = useState(Array.isArray(props.phrases) ? props.phrases : []);
   const [dialog, setDialog] = useState(null);
 
@@ -68,10 +68,11 @@ export const PhrasalExtractor = (props: { phrases: Sentence[], videoPlayer: any,
     let ankiConnectionError = false;
 
     const movieTitle = props.title;
+    const movieId = props.movieId;
     for (let i = 0; i < phrases.length; i++) {
       try {
         if (!phrases[i].savedOnAnki) {
-          await callback(movieTitle, phrases[i]);
+          await callback(movieId, movieTitle, phrases[i]);
           status(i).saved();
           affectedSentences++;
 

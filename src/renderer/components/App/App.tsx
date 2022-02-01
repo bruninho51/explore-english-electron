@@ -54,6 +54,7 @@ function Player ({ movieId, movieName, onHome }: { movieId: string, movieName: s
       }}
         phrases={phrases}
         title={movieName}
+        movieId={movieId}
         save={(phrase: Sentence, status: { saved: Function, failed: Function }) => {
           if (phrase.status !== 'saved') {
             saveSentenceMovie(movieId, phrase)
