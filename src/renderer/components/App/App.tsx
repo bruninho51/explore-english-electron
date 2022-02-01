@@ -11,6 +11,7 @@ import { Sentence } from '../../../domain/models/sentence';
 import { AxiosResponse, AxiosError } from 'axios';
 import { Movie } from '../../../domain/models/movie';
 import { saveSentenceAnki } from '../../../services/save-sentence-anki';
+import { Dialog } from '../Dialog';
 
 function Player ({ movieId, movieName, onHome }: { movieId: string, movieName: string, onHome: MouseEventHandler<HTMLButtonElement> }): ReactElement {
   const [video, setVideo] = useState('file:///home/bruno/Downloads/Pitch Atomon.mp4');
@@ -74,13 +75,41 @@ function Player ({ movieId, movieName, onHome }: { movieId: string, movieName: s
 
 function Home ({ movies, removeMovie, selectMovie, onCreateMovie }: { movies: Movie[], removeMovie: Function, selectMovie: Function, onCreateMovie: Function }): ReactElement {
   const context = useAuth();
+  const [dialog, setDialog] = useState(null);
+
+  const deleteMovie = (movie: Movie): void => {
+    setDialog({
+      title: 'Atention',
+      body: 'Are you sure you want to remove the movie?',
+      labelBtn1: 'Yes',
+      labelBtn2: 'No',
+      onClickBtn1: () => {
+        setDialog(null);
+        removeMovie(movie.id);
+      },
+      onClickBtn2: () => {
+        setDialog(null);
+      }
+    });
+  };
+
   return (
     <React.Fragment>
+      {dialog
+        ? <Dialog
+            title={dialog.title}
+            labelBtn1={dialog.labelBtn1}
+            labelBtn2={dialog.labelBtn2}
+            onClickBtn1={dialog.onClickBtn1}
+            onClickBtn2={dialog.onClickBtn2} >
+          {dialog.body}
+        </Dialog>
+        : <div />}
       <AppMenu onCreateMovie={onCreateMovie} onLogout={context.Logout} />
       <MovieList movies={movies.map(movie => ({
         title: movie.name,
         imageAlt: movie.name,
-        onRemove: () => removeMovie(movie.id),
+        onRemove: () => deleteMovie(movie),
         onStudy: () => selectMovie(movie)
       }))} />
     </React.Fragment>
