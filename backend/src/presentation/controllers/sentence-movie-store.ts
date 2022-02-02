@@ -1,5 +1,5 @@
 import { Controller, HttpRequest, HttpResponse, Validation } from '@/presentation/protocols'
-import { serverError, created, badRequest } from '@/presentation/helpers/http/http-helper'
+import { serverError, ok, badRequest } from '@/presentation/helpers/http/http-helper'
 import { SentenceMovieStore } from '@/domain/protocols/sentence-movie-store'
 
 export class SentenceMovieStoreController implements Controller {
@@ -15,8 +15,8 @@ export class SentenceMovieStoreController implements Controller {
         return badRequest(errors)
       }
       const { movieId } = request.params
-      await this.sentenceMovieStore.store(movieId, request.body)
-      return created()
+      const newSentence = await this.sentenceMovieStore.store(movieId, request.body)
+      return ok(newSentence)
     } catch (error) {
       return serverError(error)
     }

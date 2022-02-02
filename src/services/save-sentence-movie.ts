@@ -9,6 +9,7 @@ export const saveSentenceMovie = async (movieId: string, sentence: Sentence): Pr
       sentence: sentence.sentence
     })
       .then((response: AxiosResponse<Sentence>) => {
+        console.log(response);
         resolve(response.data.id);
       })
       .catch(function (error: AxiosError) {

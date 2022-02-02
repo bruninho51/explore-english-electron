@@ -26,9 +26,10 @@ export const PhrasalExtractor = (props: { phrases: Sentence[], videoPlayer: any,
         newPhrases[index].status = 'failed';
         setPhrases(newPhrases);
       },
-      saved: () => {
+      saved: (id: string) => {
         const newPhrases = [...phrases];
         newPhrases[index].status = 'saved';
+        newPhrases[index].id = id;
         setPhrases(newPhrases);
       }
     });
@@ -71,7 +72,7 @@ export const PhrasalExtractor = (props: { phrases: Sentence[], videoPlayer: any,
     const movieId = props.movieId;
     for (let i = 0; i < phrases.length; i++) {
       try {
-        if (!phrases[i].savedOnAnki) {
+        if (phrases[i].status && !phrases[i].savedOnAnki) {
           await callback(movieId, movieTitle, phrases[i]);
           status(i).saved();
           affectedSentences++;

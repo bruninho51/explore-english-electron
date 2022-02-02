@@ -59,8 +59,9 @@ function Player ({ movieId, movieName, onHome }: { movieId: string, movieName: s
         save={(phrase: Sentence, status: { saved: Function, failed: Function }) => {
           if (phrase.status !== 'saved') {
             saveSentenceMovie(movieId, phrase)
-              .then(() => {
-                status.saved();
+              .then((id) => {
+                console.log('xx: ', id);
+                status.saved(id);
               })
               .catch((error) => {
                 console.log(error);
