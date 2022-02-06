@@ -3,5 +3,8 @@ import styled from 'styled-components';
 export const Footer = styled.div`
     display: flex;
     justify-content: flex-end;
-    flex-align: center;
+    position: absolute;
+    bottom: 0px;
+    width: 90%;
+    margin-bottom: 10px;
 `;

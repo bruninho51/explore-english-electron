@@ -17,12 +17,17 @@ export const MovieTumb = ({ title, imageSrc, imageAlt, onStudy, onRemove }: { ti
       <Header>
         <MovieImage alt={imageAlt} src={imageSrc} />
       </Header>
-        <Body>
-          {title}
-        </Body>
+      <Body>
+        {title}
+      </Body>
       <Footer>
         {onStudy
-          ? <Button onClick={onStudy}>Estudar</Button>
+          ? <Button onClick={onStudy}>
+            <div style={{ display: 'flex', justifyContent: 'center', alignContent: 'center' }}>
+              <span className="material-icons md-18">book</span>
+              <span style={{ paddingTop: '2px' }}>Learn</span>
+            </div>
+          </Button>
           : <div />}
       </Footer>
     </MovieTumbContainer>

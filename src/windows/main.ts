@@ -14,6 +14,10 @@ export class MainWindow extends ExploreEnglishWindow {
     this.browserWindow = this.make();
     this.configureWindowPage();
     this.configureContextMenu();
+
+    this.browserWindow.on('close', function () {
+      process.exit();
+    });
   }
 
   getBrowserWindowInstance (): BrowserWindow {

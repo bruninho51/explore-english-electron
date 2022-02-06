@@ -12,8 +12,10 @@ import { AxiosResponse, AxiosError } from 'axios';
 import { Movie } from '../../../domain/models/movie';
 import { saveSentenceAnki } from '../../../services/save-sentence-anki';
 import { Dialog } from '../Dialog';
+import background from '../../images/background.jpg';
 
 function Player ({ movieId, movieName, onHome }: { movieId: string, movieName: string, onHome: MouseEventHandler<HTMLButtonElement> }): ReactElement {
+  const context = useAuth();
   const [video, setVideo] = useState('file:///home/bruno/Downloads/Pitch Atomon.mp4');
   const [subtitle, setSubtitle] = useState([]);
   const [phrases, setPhrases] = useState<Sentence[]>([]);
@@ -42,7 +44,7 @@ function Player ({ movieId, movieName, onHome }: { movieId: string, movieName: s
 
   return (
     <React.Fragment>
-      <AppMenu onHome={onHome} onExport={onExport} />
+      <AppMenu onHome={onHome} onExport={onExport} onLogout={context.Logout} />
       <PhrasalExtractor videoPlayer={{
         autoplay: true,
         controls: true,
@@ -146,6 +148,7 @@ function App (): ReactElement {
 
   return (
     <MainContainer>
+      <img style={{ width: '100%', height: '100%', position: 'absolute' }} src={background} />
       {Object.values(selectedMovie).length
         ? <Player
           movieId={selectedMovie.id}

@@ -5,4 +5,12 @@ export const ContainerLogin = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  z-index: 4;
+  img {
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -o-user-select: none;
+    user-select: none;
+  }
 `;

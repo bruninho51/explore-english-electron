@@ -11,19 +11,19 @@ export const MovieList = ({ movies }: { movies: any }): ReactElement => {
   return (
     <React.Fragment>
       {createMovie ? <MovieDialog onCancel={() => setCreateMovie(false)} onSave={() => alert('movie criado')} /> : <div />}
-        <MoviesList>
-          <Scrollbars renderThumbVertical={() => (<VerticalScroll />)}>
-            {movies.map((movie: any) => (
-              <MovieItem
+      <MoviesList>
+        <Scrollbars renderThumbVertical={() => (<VerticalScroll />)}>
+          {movies.map((movie: any) => (
+            <MovieItem
                 title={movie.title}
                 imageSrc={movie.imageSrc}
                 imageAlt={movie.imageAlt}
                 onRemove={movie.onRemove}
                 onStudy={movie.onStudy}
               />
-            ))}
-          </Scrollbars>
-        </MoviesList>
+          ))}
+        </Scrollbars>
+      </MoviesList>
     </React.Fragment>
   );
 };

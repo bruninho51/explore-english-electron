@@ -1,6 +1,6 @@
 {
   "name": "explore-english",
-  "version": "1.0.0-alpha.3",
+  "version": "1.0.0-alpha.4",
   "description": "explore english",
   "main": "main.js",
   "scripts": {
@@ -26,6 +26,7 @@
   "dependencies": {
     "@videojs/themes": "^1.0.1",
     "axios": "^0.24.0",
+    "cheerio": "^1.0.0-rc.10",
     "core-js": "^3.19.3",
     "electron": "^16.0.4",
     "mini-css-extract-plugin": "^2.4.5",
@@ -35,12 +36,12 @@
     "react-dom": "^17.0.2",
     "react-icons": "^4.3.1",
     "react-router-dom": "^5.2.0",
+    "react-spinners": "^0.11.0",
     "rimraf": "^3.0.2",
     "run-p": "0.0.0",
     "styled-components": "^5.3.3",
     "uuid": "^8.3.2",
-    "video.js": "^7.17.0",
-    "cheerio": "^1.0.0-rc.10"
+    "video.js": "^7.17.0"
   },
   "devDependencies": {
     "@babel/core": "^7.16.5",

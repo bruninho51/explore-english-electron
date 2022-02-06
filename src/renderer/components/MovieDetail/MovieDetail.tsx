@@ -6,6 +6,7 @@ import { MovieTumb } from './MovieTumb';
 export const MovieDetail = ({ title, imageSrc, imageAlt }: { title: string, imageSrc: string, imageAlt: string }): ReactElement => {
   return (
     <InlineBlockContainer>
+
       <FlexContainer>
         <MovieTumb
           title={title}
