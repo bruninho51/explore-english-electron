@@ -1,10 +1,9 @@
 import React, { MouseEventHandler, ReactElement, useState } from 'react';
 import { MovieDialog } from '../MovieDialog';
-import { FaHome, FaFileExport, FaPlusSquare } from 'react-icons/fa';
-import { RiLogoutBoxFill } from 'react-icons/ri';
 import { Dialog } from '../Dialog';
 import { Button } from '../Button';
 import { Bar } from './Bar';
+import logo from '../../images/icon.png';
 
 export const AppMenu = ({ onHome, onCreateMovie, onExport, onLogout }: { onHome?: MouseEventHandler<HTMLButtonElement>, onCreateMovie?: Function, onExport?: () => Promise<any>, onLogout?: MouseEventHandler<HTMLButtonElement> }): ReactElement => {
   const [createMovie, setCreateMovie] = useState(false);
@@ -29,23 +28,21 @@ export const AppMenu = ({ onHome, onCreateMovie, onExport, onLogout }: { onHome?
         : <div />}
       {createMovie ? <MovieDialog onCancel={() => setCreateMovie(false)} onSave={onSave} /> : <div />}
       <Bar>
-        {onLogout
-          ? <Button style={{ marginTop: '5px' }} onClick={onLogout}>
-            <RiLogoutBoxFill />
-          </Button>
-          : <div />}
+        <img style={{ width: '50px' }} src={logo} />
         {onHome
-          ? <Button style={{ marginTop: '5px' }} onClick={onHome}>
-            <FaHome />
+          ? <Button style={{ marginTop: '5px', overflow: 'hidden' }} onClick={onHome}>
+            <span style={{ color: 'black' }} className="material-icons md-18">home</span>
+            <span style={{ marginLeft: '15px', whiteSpace: 'nowrap', display: 'block' }}>Home</span>
           </Button>
           : <div />}
         {onCreateMovie
-          ? <Button style={{ marginTop: '5px' }} onClick={() => setCreateMovie(true)}>
-            <FaPlusSquare />
+          ? <Button style={{ marginTop: '5px', overflow: 'hidden' }} onClick={() => setCreateMovie(true)}>
+            <span style={{ color: 'black' }} className="material-icons md-18">note_add</span>
+            <span style={{ marginLeft: '15px', whiteSpace: 'nowrap', display: 'block' }}>Add a Movie</span>
           </Button>
           : <div />}
         {onExport
-          ? <Button style={{ marginTop: '5px' }} onClick={() => {
+          ? <Button style={{ marginTop: '5px', overflow: 'hidden' }} onClick={() => {
             onExport()
               .then(() => {
                 setDialog({
@@ -68,7 +65,14 @@ export const AppMenu = ({ onHome, onCreateMovie, onExport, onLogout }: { onHome?
                 });
               });
           }}>
-            <FaFileExport />
+            <span style={{ color: 'black' }} className="material-icons md-18">import_export</span>
+            <span style={{ marginLeft: '15px', whiteSpace: 'nowrap', display: 'block' }}>Export Data</span>
+          </Button>
+          : <div />}
+        {onLogout
+          ? <Button style={{ marginTop: '5px', overflow: 'hidden' }} onClick={onLogout}>
+            <span style={{ color: 'black' }} className="material-icons md-36">logout</span>
+            <span style={{ marginLeft: '15px', whiteSpace: 'nowrap', display: 'block' }}>Logout</span>
           </Button>
           : <div />}
       </Bar>

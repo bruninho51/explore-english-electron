@@ -25,7 +25,7 @@ export class AboutWindow extends ExploreEnglishWindow {
   make (): BrowserWindow {
     return new BrowserWindow({
       width: 400,
-      height: 400,
+      height: 600,
       icon: NativeImage.createFromPath(getIcon('icon')),
       webPreferences: {
         nodeIntegration: false,

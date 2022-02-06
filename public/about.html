@@ -6,29 +6,35 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet"> 
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet">
     <title>About</title>
     <style>
         * {
             font-family: Roboto;
+            pointer-events: none;
         }
         .icon {
             width: 128px;
+            pointer-events: none;
         }
         .container {
             box-sizing: border-box;
             width: 100%;
-            height: 95vmin;
-            background: #F8F8F8;
-            border-left: 3px solid #DCDCDC;
-            border-right: 3px solid #DCDCDC;
+           
             padding:  5px 5px 5px 5px;
-            border-bottom: 3px solid #DCDCDC;
             border-radius: 5px;
+            display: flex;
+            justify-content: center;
+            flex-direction: column;
+            align-items: center;
+            pointer-events: none;
         }
         .version {
             position: absolute;
-            bottom: 50px;
+            bottom: 20px;
             left: 20px;
+            pointer-events: none;
         }
     </style>
 </head>
@@ -39,7 +45,32 @@
         <p>
             Explorenglish is a platform created to increase your understanding of the English language through videos and spaced repetition.
         </p>
-        <span class="version"><b>version:</b> alpha 3</span>
+
+        <div id="versions" style="display: flex; align-items: center; flex-direction: column;">
+            <b>Explore English:</b>
+            <span id="app-version">alpha 4</span>
+            <b>Electron:</b> 
+            <span id="electronVersion"></span>
+
+            <b>OS Type:</b> 
+            <span id="osType"></span>
+            <b>OS Release:</b> 
+            <span id="osRelease"></span>
+            <b>OS Platform:</b> 
+            <span id="osPlatform"></span>
+            <b>Archtecture:</b> 
+            <span id="archtecture"></span>
+        </div>
+        
     </div>
+    <script>
+        const result = electron.getAbout()
+        document.getElementById('electronVersion').textContent = result.electronVersion
+
+        document.getElementById('osType').textContent = result.osType
+        document.getElementById('osRelease').textContent = result.osRelease
+        document.getElementById('osPlatform').textContent = result.osPlatform
+        document.getElementById('archtecture').textContent = result.arch
+    </script>
 </body>
 </html>

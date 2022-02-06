@@ -6,7 +6,7 @@ export const AppRoutes = (): ReactElement => {
   return (
     <BrowserRouter>
       <Route path="/">
-        <App/>
+        <App />
       </Route>
     </BrowserRouter>
   );

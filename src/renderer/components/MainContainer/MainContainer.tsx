@@ -12,4 +12,5 @@ export const MainContainer = styled.div`
   border-bottom: 3px solid #DCDCDC;
   border-radius: 5px;
   display: flex;
+  position: relative;
 `;
