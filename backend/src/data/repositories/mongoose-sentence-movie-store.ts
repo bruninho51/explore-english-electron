@@ -25,6 +25,7 @@ export class MongooseSentenceMovieStore implements SentenceMovieStore {
 
         const newSentence: Sentence = {
           id: mongoSentence._id,
+          videoTime: mongoSentence.videoTime,
           sentence: mongoSentence.sentence,
           wordIndex: mongoSentence.wordIndex
         }

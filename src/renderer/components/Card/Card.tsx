@@ -8,11 +8,11 @@ import { DeleteButton } from './DeleteButton';
 import { LoadStatus } from './LoadStatus';
 import ankiImage from '../../images/anki.png';
 
-export const Card = ({ wordIndex, sentence, uuid, status, savedOnAnki, onDelete }: { wordIndex: number, sentence: string, uuid: string, status: string, savedOnAnki: boolean, onDelete: Function }): ReactElement => {
+export const Card = ({ wordIndex, sentence, uuid, status, savedOnAnki, onDelete, onClick }: { wordIndex: number, sentence: string, uuid: string, status: string, savedOnAnki: boolean, onDelete: Function, onClick: Function }): ReactElement => {
   const words = extractWordsFromSentence(sentence);
   return (
     <RelativeBox>
-      <CardStyle status={status}>
+      <CardStyle status={status} onClick={() => onClick()}>
         <div style={{ padding: '5px 50px 0px 10px' }}>
           {words.map((word, index) => {
             return <MarkableWord key={index} marked={index === wordIndex} >{word}</MarkableWord>;

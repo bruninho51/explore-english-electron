@@ -6,7 +6,8 @@ export const saveSentenceMovie = async (movieId: string, sentence: Sentence): Pr
   return await new Promise((resolve, reject) => {
     api.post<{wordIndex: number, sentence: string}>(`/movie/${movieId}/sentence`, {
       wordIndex: sentence.wordIndex,
-      sentence: sentence.sentence
+      sentence: sentence.sentence,
+      videoTime: sentence.videoTime,
     })
       .then((response: AxiosResponse<Sentence>) => {
         console.log(response);

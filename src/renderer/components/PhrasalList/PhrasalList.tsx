@@ -6,7 +6,7 @@ import { VerticalScroll } from '../MovieList/VerticalScroll';
 import { NoContent } from './NoContent';
 import { PhrasalListContainer } from './PhrasalListContainer';
 
-export const PhrasalList = ({ phrases, onDelete }: { phrases: Sentence[], onDelete: Function }): ReactElement => {
+export const PhrasalList = ({ phrases, onDelete, changeVideoTime }: { phrases: Sentence[], onDelete: Function, changeVideoTime: Function }): ReactElement => {
   return (
     phrases?.length
       ? <PhrasalListContainer>
@@ -17,6 +17,10 @@ export const PhrasalList = ({ phrases, onDelete }: { phrases: Sentence[], onDele
               uuid={phrase.id}
               wordIndex={phrase.wordIndex}
               sentence={phrase.sentence}
+              onClick={() => {
+                changeVideoTime(0)
+                setTimeout(() => changeVideoTime(phrase.videoTime), 50)
+              }}
               onDelete={onDelete}
               status={phrase.status}
               savedOnAnki={phrase.savedOnAnki}

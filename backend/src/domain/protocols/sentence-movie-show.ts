@@ -9,6 +9,7 @@ export namespace SentenceMovieShow {
     id: string
     wordIndex: number
     sentence: string
+    videoTime: number
     word: string
     savedOnAnki: boolean
   }

@@ -19,10 +19,12 @@ export class MongooseSentenceMovieShow implements SentenceMovieShow {
             id: sentence._id,
             wordIndex: sentence.wordIndex,
             sentence: sentence.sentence,
+            videoTime: sentence.videoTime,
             savedOnAnki: sentence.savedOnAnki,
             word: this.sentenceWordGetter.getWord({
               id: sentence._id,
               sentence: sentence.sentence,
+              videoTime: sentence.videoTime,
               wordIndex: sentence.wordIndex,
               user: {
                 id: sentence.user?._id,

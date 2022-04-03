@@ -19,9 +19,11 @@ export class MongooseSentenceShow implements SentenceShow {
             id: sentence._id,
             wordIndex: sentence.wordIndex,
             sentence: sentence.sentence,
+            videoTime: sentence.videoTime,
             word: this.sentenceWordGetter.getWord({
               id: sentence._id,
               sentence: sentence.sentence,
+              videoTime: sentence.videoTime,
               wordIndex: sentence.wordIndex,
               user: {
                 id: sentence.user._id,

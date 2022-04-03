@@ -9,6 +9,7 @@ export namespace SentenceShow {
     id: string
     wordIndex: number
     sentence: string
+    videoTime: number
     word: string
   }
   export type Result = SentenceDto

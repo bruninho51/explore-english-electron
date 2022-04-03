@@ -8,7 +8,8 @@ export class SentenceMovieStoreValidation implements Validation {
     const schema = yup.object().shape({
       movieId: yup.string().required(),
       sentence: yup.string().required(),
-      wordIndex: yup.number().required().integer()
+      wordIndex: yup.number().required().integer(),
+      videoTime: yup.number().required(),
     })
 
     try {

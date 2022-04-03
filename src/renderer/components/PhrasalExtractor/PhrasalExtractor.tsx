@@ -14,6 +14,7 @@ import ankiImage from '../../images/anki.png';
 export const PhrasalExtractor = (props: { phrases: Sentence[], videoPlayer: any, title: string, movieId: string, save: Function, saveOnAnki: Function }): ReactElement => {
   const [phrases, setPhrases] = useState(Array.isArray(props.phrases) ? props.phrases : []);
   const [dialog, setDialog] = useState(null);
+  const [videoTime, setVideoTime] = useState(0);
 
   useEffect(() => {
     setPhrases(props.phrases);
@@ -144,20 +145,25 @@ export const PhrasalExtractor = (props: { phrases: Sentence[], videoPlayer: any,
         : <div />}
 
       <Container>
-        <PhrasalList phrases={phrases} onDelete={(uuid: string) => {
-          setDialog({
-            title: 'Atention',
-            body: 'Are you sure want to delete?',
-            labelBtn1: 'Yes',
-            labelBtn2: 'No',
-            onClickBtn1: () => {
-              setPhrases(phrases.filter(phrase => phrase.id !== uuid));
-              setDialog(null);
-            },
-            onClickBtn2: () => {
-              setDialog(null);
-            }
-          });
+        <PhrasalList 
+          phrases={phrases} 
+          changeVideoTime={(time: number) => {
+            setVideoTime(time)
+          }} 
+          onDelete={(uuid: string) => {
+            setDialog({
+              title: 'Atention',
+              body: 'Are you sure want to delete?',
+              labelBtn1: 'Yes',
+              labelBtn2: 'No',
+              onClickBtn1: () => {
+                setPhrases(phrases.filter(phrase => phrase.id !== uuid));
+                setDialog(null);
+              },
+              onClickBtn2: () => {
+                setDialog(null);
+              }
+            });
         }} />
         <VideoContainer>
           <VideoPlayer
@@ -167,18 +173,20 @@ export const PhrasalExtractor = (props: { phrases: Sentence[], videoPlayer: any,
               src: props.videoPlayer.sources[0].src,
               type: props.videoPlayer.sources[0].type
             }]}
+            videoTime={videoTime}
             balance={props.videoPlayer.balance}
             subtitle={props.videoPlayer.subtitle}
-            onSave={(word: number, subtitle: string) => {
+            onSave={(word: number, subtitle: string, videoTime: number) => {
               const newWord: Sentence = {
                 id: uuidv4(),
                 wordIndex: word,
                 sentence: subtitle,
                 savedOnAnki: false,
+                videoTime: videoTime,
                 word: extractWordsFromSentence(subtitle)[word]
               };
               setPhrases([...phrases, newWord]);
-              if (props.videoPlayer.onSave) { props.videoPlayer.onSave(word, subtitle); };
+              if (props.videoPlayer.onSave) { props.videoPlayer.onSave(word, subtitle, videoTime); };
             }}
           />
 

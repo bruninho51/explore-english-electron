@@ -27,6 +27,7 @@ export class MongooseMovie implements MongooseModel<MongooseMovieSchema> {
       sentences: [new this.mongoose.Schema({
         wordIndex: { type: Number },
         sentence: { type: String },
+        videoTime: { type: Number },
         savedOnAnki: { type: Boolean }
       })],
       user: {

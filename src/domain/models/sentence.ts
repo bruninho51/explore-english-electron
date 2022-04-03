@@ -5,4 +5,5 @@ export interface Sentence {
   word: string
   savedOnAnki: boolean
   status?: string
+  videoTime: number
 }

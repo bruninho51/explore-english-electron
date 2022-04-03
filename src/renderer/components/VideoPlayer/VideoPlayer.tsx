@@ -98,6 +98,10 @@ export default class VideoPlayer extends React.Component<Props> {
     if (prevProps.subtitle !== this.props.subtitle) {
       this.setState({ ...this.defaultProps() });
     }
+
+    if (this.props.videoTime !== prevProps.videoTime) {
+      this.player.currentTime(this.props.videoTime)
+    }
   }
 
   componentDidMount (): void {
@@ -132,7 +136,7 @@ export default class VideoPlayer extends React.Component<Props> {
               this.setState({ edit: false });
             }}
             onSave={(word: number, subtitle: string) => {
-              this.props.onSave(word, subtitle);
+              this.props.onSave(word, subtitle, this.player.currentTime());
               this.setState({ edit: false });
               this.player.play();
             }}
@@ -144,6 +148,7 @@ export default class VideoPlayer extends React.Component<Props> {
 
 export type Props = {
   balance?: number
+  videoTime: number
   subtitle: Array<{
     identifier: number
     subtitle: string
@@ -156,7 +161,7 @@ export type Props = {
   }>
   autoplay: boolean
   controls: boolean
-  onSave: (word: number, subtitle: string) => void
+  onSave: (word: number, subtitle: string, videoTime: number) => void
 }
 
 export type State = {
